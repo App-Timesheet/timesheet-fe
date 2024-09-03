@@ -1,16 +1,10 @@
 import React from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  Link,
-  Stack,
-  IconButton,
-} from "@mui/material";
+import { Box, Container, Typography, Stack, IconButton } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -52,32 +46,19 @@ const Footer = () => {
           >
             Quick Links
           </Typography>
-          <Link
-            href="#"
-            color="inherit"
-            sx={{ color: "#bbb", textDecoration: "none" }}
-          >
+          <Link to="/about" style={{ color: "#bbb", textDecoration: "none" }}>
             About
           </Link>
-          <Link
-            href="#"
-            color="inherit"
-            sx={{ color: "#bbb", textDecoration: "none" }}
-          >
+          <Link to="/contact" style={{ color: "#bbb", textDecoration: "none" }}>
             Contact
           </Link>
           <Link
-            href="#"
-            color="inherit"
-            sx={{ color: "#bbb", textDecoration: "none" }}
+            to="/services"
+            style={{ color: "#bbb", textDecoration: "none" }}
           >
             Services
           </Link>
-          <Link
-            href="#"
-            color="inherit"
-            sx={{ color: "#bbb", textDecoration: "none" }}
-          >
+          <Link to="/support" style={{ color: "#bbb", textDecoration: "none" }}>
             Support
           </Link>
         </Stack>

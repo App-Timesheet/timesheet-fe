@@ -32,29 +32,6 @@ function Login() {
   return (
     <Layout>
       <>
-        <AppBar
-          position="static"
-          color="default"
-          sx={{ backgroundColor: "white", boxShadow: "none" }}
-        >
-          <Toolbar>
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ display: "flex", alignItems: "center", ml: 2 }}
-            >
-              <img
-                src={logo}
-                alt="Logo"
-                style={{ height: "50px", width: "auto" }}
-              />
-              <Typography variant="h6" color="inherit" sx={{ ml: 2 }}>
-                TimeSheet
-              </Typography>
-            </Typography>
-          </Toolbar>
-        </AppBar>
-
         <Box sx={{ backgroundColor: "#0164ff", py: { xs: 10, sm: 15 } }}>
           <Container
             maxWidth="lg"
