@@ -1,0 +1,65 @@
+.footer-root {
+  background-color: #242424;
+  padding: 16px 0;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-stack {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.footer-title {
+  font-weight: bold;
+  color: #f0f0f0;
+}
+
+.footer-description {
+  color: #888;
+}
+
+.footer-link {
+  color: #bbb;
+  text-decoration: none;
+}
+
+.footer-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.footer-icons .MuiIconButton-root {
+  color: white;
+}
+
+.footer-copy {
+  color: #aaa;
+}
+
+.footer-policy {
+  color: #777;
+  text-decoration: none;
+}
+
+@media (min-width: 600px) {
+  .footer-root {
+    padding: 24px 0;
+  }
+  .footer-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .footer-stack {
+    margin-bottom: 0;
+    text-align: left;
+  }
+}

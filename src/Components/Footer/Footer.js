@@ -5,65 +5,41 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { Link } from "react-router-dom";
+import '../footer/footer.css';
+import { formatDate } from '../../utils/index';
 
 const Footer = () => {
   return (
-    <Box
-      sx={{ backgroundColor: "#242424", py: { xs: 4, sm: 6 }, color: "white" }}
-    >
-      <Container
-        maxWidth="lg"
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column", sm: "row" },
-          justifyContent: { xs: "center", sm: "space-between" },
-          alignItems: { xs: "center", sm: "flex-start" },
-        }}
-      >
-        <Stack
-          spacing={1}
-          sx={{ mb: { xs: 4, sm: 0 }, textAlign: { xs: "center", sm: "left" } }}
-        >
-          <Typography
-            variant="subtitle1"
-            sx={{ fontWeight: "bold", color: "#f0f0f0" }}
-          >
+    <Box className="footer-root">
+      <Container className="footer-container">
+        <Stack className="footer-stack">
+          <Typography variant="subtitle1" className="footer-title">
             TimeSheet
           </Typography>
-          <Typography variant="body2" sx={{ color: "#888" }}>
+          <Typography variant="body2" className="footer-description">
             Revolutionizing project management.
           </Typography>
         </Stack>
 
-        <Stack
-          spacing={1}
-          alignItems="center"
-          sx={{ mb: { xs: 4, sm: 0 }, textAlign: { xs: "center", sm: "left" } }}
-        >
-          <Typography
-            variant="subtitle1"
-            sx={{ fontWeight: "bold", color: "#f0f0f0" }}
-          >
+        <Stack className="footer-stack">
+          <Typography variant="subtitle1" className="footer-title">
             Quick Links
           </Typography>
-          <Link to="/about" style={{ color: "#bbb", textDecoration: "none" }}>
+          <Link to="/about" className="footer-link">
             About
           </Link>
-          <Link to="/contact" style={{ color: "#bbb", textDecoration: "none" }}>
+          <Link to="/contact" className="footer-link">
             Contact
           </Link>
-          <Link
-            to="/services"
-            style={{ color: "#bbb", textDecoration: "none" }}
-          >
+          <Link to="/services" className="footer-link">
             Services
           </Link>
-          <Link to="/support" style={{ color: "#bbb", textDecoration: "none" }}>
+          <Link to="/support" className="footer-link">
             Support
           </Link>
         </Stack>
 
-        <Stack spacing={2} direction="row" sx={{ mb: { xs: 4, sm: 0 } }}>
+        <Stack className="footer-icons" direction="row" spacing={2}>
           <IconButton color="inherit" href="https://facebook.com">
             <FacebookIcon />
           </IconButton>
@@ -78,18 +54,14 @@ const Footer = () => {
           </IconButton>
         </Stack>
 
-        <Stack
-          spacing={1}
-          alignItems="center"
-          sx={{ textAlign: { xs: "center", sm: "right" } }}
-        >
-          <Typography variant="body2" sx={{ color: "#aaa" }}>
-            &copy; {new Date().getFullYear()} TimeSheet
+        <Stack className="footer-stack">
+          <Typography variant="body2" className="footer-copy">
+          &copy; {formatDate(new Date())} TimeSheet
           </Typography>
-          <Link href="#" sx={{ color: "#777", textDecoration: "none" }}>
+          <Link href="#" className="footer-policy">
             Privacy Policy
           </Link>
-          <Link href="#" sx={{ color: "#777", textDecoration: "none" }}>
+          <Link href="#" className="footer-policy">
             Terms of Service
           </Link>
         </Stack>
@@ -99,3 +71,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

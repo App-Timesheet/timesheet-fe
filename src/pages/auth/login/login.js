@@ -9,17 +9,17 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import logo from "../../assets/images/logo.png";
-import login_left from "../../assets/images/login_left.png";
-import login_photo1 from "../../assets/images/login_photo1.png";
-import login_photo2 from "../../assets/images/login_photo2.png";
-import lg from "../../assets/images/lg.png";
-import hp from "../../assets/images/hp.png";
-import amazon from "../../assets/images/amazon.jpg";
-import hepsi from "../../assets/images/hepsi.png";
-import netlifx from "../../assets/images/netflix.png";
-import mercedes from "../../assets/images/mercedes.png";
-import Layout from "../../Layout";
+import logo from "../../../assets/images/logo.png";
+import login_left from "../../../assets/images/login_left.png";
+import login_photo1 from "../../../assets/images/login_photo1.png";
+import login_photo2 from "../../../assets/images/login_photo2.png";
+import lg from "../../../assets/images/lg.png";
+import hp from "../../../assets/images/hp.png";
+import amazon from "../../../assets/images/amazon.jpg";
+import hepsi from "../../../assets/images/hepsi.png";
+import netlifx from "../../../assets/images/netflix.png";
+import mercedes from "../../../assets/images/mercedes.png";
+import Layout from "../../../Layout";
 
 function Login() {
   const [username, setUsername] = useState("");

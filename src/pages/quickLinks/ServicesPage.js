@@ -12,7 +12,7 @@ const ServicesPage = () => {
             gutterBottom
             sx={{ color: "#1976d2", textAlign: "center" }}
           >
-            Hizmetlerimiz
+            Our Services
           </Typography>
           <Typography
             variant="body1"
@@ -24,9 +24,9 @@ const ServicesPage = () => {
               mx: "auto",
             }}
           >
-            TimeSheet'te, proje yönetimi deneyiminizi sorunsuz ve verimli hale
-            getirmek için kapsamlı bir hizmet yelpazesi sunuyoruz. Aşağıda
-            sağladığımız hizmetlerin ayrıntılı bir özeti bulunmaktadır:
+            At TimeSheet, we offer a comprehensive range of services to make
+            your project management experience smooth and efficient. Below is a
+            detailed summary of the services we provide:
           </Typography>
 
           <Box sx={{ mt: 4 }}>
@@ -35,15 +35,14 @@ const ServicesPage = () => {
               sx={{ p: 3, mb: 4, backgroundColor: "#e3f2fd", borderRadius: 2 }}
             >
               <Typography variant="h6" gutterBottom sx={{ color: "#1976d2" }}>
-                1. Zaman Takibi
+                1. Time Tracking
               </Typography>
               <Typography variant="body1" gutterBottom sx={{ color: "#555" }}>
-                Zaman takip aracımız, saatlerinizi hassasiyetle ve kolaylıkla
-                kaydetmenizi sağlar. Çalışmanızı gerçek zamanlı olarak takip
-                edin, belirli görevlere saat atayın ve zamanınızın nereye
-                gittiğinin genel bir görünümünü elde edin. Bu özellik,
-                müşterilere fatura kesmek, çalışan verimliliğini yönetmek ve
-                projelerin doğru ilerlemesini sağlamak için mükemmeldir.
+                Our time tracking tool allows you to record your hours with
+                precision and ease. Track your work in real time, assign hours
+                to specific tasks, and get an overall view of where your time is
+                going. This feature is perfect for billing clients, managing
+                employee productivity, and ensuring projects stay on track.
               </Typography>
             </Paper>
 
@@ -52,15 +51,14 @@ const ServicesPage = () => {
               sx={{ p: 3, mb: 4, backgroundColor: "#e3f2fd", borderRadius: 2 }}
             >
               <Typography variant="h6" gutterBottom sx={{ color: "#1976d2" }}>
-                2. Proje Yönetimi
+                2. Project Management
               </Typography>
               <Typography variant="body1" gutterBottom sx={{ color: "#555" }}>
-                Projelerinizi baştan sona yönetmek için sezgisel proje yönetim
-                araçlarımızı kullanın. Görevler oluşturun, bunları ekip
-                üyelerine atayın, son tarihleri belirleyin ve ilerlemeyi
-                izleyin. Araçlarımız, her şeyin düzenli kalmasına ve
-                ekibinizdeki herkesin aynı hizada olmasına yardımcı olacak
-                şekilde tasarlanmıştır.
+                Use our intuitive project management tools to manage your
+                projects from start to finish. Create tasks, assign them to team
+                members, set deadlines, and track progress. Our tools are
+                designed to help keep everything organized and ensure that
+                everyone on your team is aligned.
               </Typography>
             </Paper>
 
@@ -69,14 +67,14 @@ const ServicesPage = () => {
               sx={{ p: 3, mb: 4, backgroundColor: "#e3f2fd", borderRadius: 2 }}
             >
               <Typography variant="h6" gutterBottom sx={{ color: "#1976d2" }}>
-                3. Görev Atama
+                3. Task Assignment
               </Typography>
               <Typography variant="body1" gutterBottom sx={{ color: "#555" }}>
-                Görevleri doğru ekip üyelerine kolayca atayın. Öncelikleri
-                belirleyebilir, açıklamalar ekleyebilir ve görevlerin doğru ve
-                zamanında tamamlanmasını sağlamak için gerekli tüm ayrıntıları
-                sağlayabilirsiniz. Platformumuz, gerektiğinde görevleri yeniden
-                atamayı basit hale getirerek esneklik ve verimlilik sağlar.
+                Easily assign tasks to the right team members. You can set
+                priorities, add descriptions, and provide all the necessary
+                details to ensure tasks are completed accurately and on time.
+                Our platform makes reassigning tasks simple, offering flexibility
+                and efficiency.
               </Typography>
             </Paper>
 
@@ -85,14 +83,14 @@ const ServicesPage = () => {
               sx={{ p: 3, mb: 4, backgroundColor: "#e3f2fd", borderRadius: 2 }}
             >
               <Typography variant="h6" gutterBottom sx={{ color: "#1976d2" }}>
-                4. Detaylı Raporlama
+                4. Detailed Reporting
               </Typography>
               <Typography variant="body1" gutterBottom sx={{ color: "#555" }}>
-                Projeleriniz hakkında detaylı raporlama araçlarımızla içgörüler
-                elde edin. Harcanan zaman, görev tamamlama ve proje ilerlemesi
-                hakkında raporlar oluşturun. Bu raporlar, özel ihtiyaçlarınızı
-                karşılayacak şekilde özelleştirilebilir ve size bilinçli
-                kararlar vermeniz için değerli veriler sağlar.
+                Gain insights into your projects with our detailed reporting
+                tools. Generate reports on time spent, task completion, and
+                project progress. These reports can be customized to meet your
+                specific needs and provide valuable data for making informed
+                decisions.
               </Typography>
             </Paper>
 
@@ -101,13 +99,13 @@ const ServicesPage = () => {
               sx={{ p: 3, mb: 4, backgroundColor: "#e3f2fd", borderRadius: 2 }}
             >
               <Typography variant="h6" gutterBottom sx={{ color: "#1976d2" }}>
-                5. İş Birliği Araçları
+                5. Collaboration Tools
               </Typography>
               <Typography variant="body1" gutterBottom sx={{ color: "#555" }}>
-                Ekip içinde iş birliğini, dahili iletişim araçlarımızla teşvik
-                edin. Dosya paylaşın, görevlere yorum bırakın ve herkesin güncel
-                kalmasını sağlayın. İş birliği özelliklerimiz, ekip iletişimini
-                iyileştirmek ve iş akışını hızlandırmak için tasarlanmıştır.
+                Foster collaboration within your team with our built-in
+                communication tools. Share files, leave comments on tasks, and
+                keep everyone updated. Our collaboration features are designed
+                to enhance team communication and speed up workflow.
               </Typography>
             </Paper>
 
@@ -116,14 +114,14 @@ const ServicesPage = () => {
               sx={{ p: 3, backgroundColor: "#e3f2fd", borderRadius: 2 }}
             >
               <Typography variant="h6" gutterBottom sx={{ color: "#1976d2" }}>
-                6. Özel Entegrasyonlar
+                6. Custom Integrations
               </Typography>
               <Typography variant="body1" gutterBottom sx={{ color: "#555" }}>
-                Her ekibin benzersiz ihtiyaçları olduğunu anlıyoruz. Bu nedenle,
-                diğer araçlar ve platformlarla özel entegrasyonlar sunuyoruz.
-                CRM'iniz, faturalama yazılımınız veya başka bir araçla bağlantı
-                kurmanız gerekiyorsa, işiniz için sorunsuz entegrasyonlar
-                kurmanıza yardımcı olabiliriz.
+                We understand that every team has unique needs, which is why we
+                offer custom integrations with other tools and platforms. Whether
+                you need to connect with your CRM, billing software, or any other
+                tool, we can help you set up seamless integrations to suit your
+                business.
               </Typography>
             </Paper>
           </Box>

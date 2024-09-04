@@ -20,6 +20,9 @@ import {
   TableRow,
 } from "@mui/material";
 import Layout from "../../Layout";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -78,7 +81,7 @@ const AdminPage = () => {
   const handleCreateUser = () => {
     if (newUser.username && newUser.password) {
       setUsers([...users, newUser]);
-      alert("Kullanıcı oluşturuldu");
+      toast.success("User created successfully");
       setNewUser({
         username: "",
         password: "",
@@ -87,14 +90,15 @@ const AdminPage = () => {
         projects: [],
       });
     } else {
-      alert("Lütfen kullanıcı adı ve şifreyi doldurun.");
+      toast.error("Please fill in the username and password.");
     }
   };
-
+  
   const handleDeleteUser = (username) => {
     setUsers(users.filter((user) => user.username !== username));
-    alert("Kullanıcı silindi");
+    toast.success("User deleted successfully");
   };
+  
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value.toLowerCase());
@@ -129,10 +133,10 @@ const AdminPage = () => {
               }}
             >
               <Paper elevation={3} sx={{ p: 3 }}>
-                <Typography variant="h6">Yeni Kullanıcı</Typography>
+                <Typography variant="h6">New User</Typography>
                 <Box component="form" sx={{ mt: 2 }}>
                   <TextField
-                    label="Kullanıcı Adı"
+                    label="Username"
                     variant="outlined"
                     fullWidth
                     margin="normal"
@@ -141,7 +145,7 @@ const AdminPage = () => {
                     onChange={handleInputChange}
                   />
                   <TextField
-                    label="Şifre"
+                    label="Password"
                     type="password"
                     variant="outlined"
                     fullWidth
@@ -151,7 +155,7 @@ const AdminPage = () => {
                     onChange={handleInputChange}
                   />
                   <FormControl fullWidth margin="normal">
-                    <InputLabel>Rol</InputLabel>
+                    <InputLabel>Role</InputLabel>
                     <Select value={newUser.role} onChange={handleRoleChange}>
                       {roles.map((role) => (
                         <MenuItem key={role} value={role}>
@@ -167,10 +171,10 @@ const AdminPage = () => {
                         onChange={handleCheckboxChange}
                       />
                     }
-                    label="Aktif"
+                    label="Active"
                   />
                   <FormControl fullWidth margin="normal">
-                    <InputLabel>Projeler</InputLabel>
+                    <InputLabel>Projects</InputLabel>
                     <Select
                       multiple
                       native
@@ -193,7 +197,7 @@ const AdminPage = () => {
                       color="primary"
                       onClick={handleCreateUser}
                     >
-                      Oluştur
+                      Create
                     </Button>
                   </Box>
                 </Box>
@@ -208,9 +212,9 @@ const AdminPage = () => {
                     alignItems: "center",
                   }}
                 >
-                  <Typography variant="h6">Kullanıcılar</Typography>
+                  <Typography variant="h6">Users</Typography>
                   <TextField
-                    label="Filtrele"
+                    label="Filter"
                     variant="outlined"
                     size="small"
                     onChange={handleFilterChange}
@@ -221,11 +225,11 @@ const AdminPage = () => {
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Kullanıcı Adı</TableCell>
-                        <TableCell>Rol</TableCell>
-                        <TableCell>Aktif</TableCell>
-                        <TableCell>Projeler</TableCell>
-                        <TableCell>İşlemler</TableCell>
+                        <TableCell>Username</TableCell>
+                        <TableCell>Role</TableCell>
+                        <TableCell>Active</TableCell>
+                        <TableCell>Projects</TableCell>
+                        <TableCell>Actions</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -234,7 +238,7 @@ const AdminPage = () => {
                           <TableCell>{user.username}</TableCell>
                           <TableCell>{user.role}</TableCell>
                           <TableCell>
-                            {user.isActive ? "Evet" : "Hayır"}
+                            {user.isActive ? "Yes" : "No"}
                           </TableCell>
                           <TableCell>{user.projects.join(", ")}</TableCell>
                           <TableCell>
@@ -243,7 +247,7 @@ const AdminPage = () => {
                               color="error"
                               onClick={() => handleDeleteUser(user.username)}
                             >
-                              Sil
+                              Delete
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -256,6 +260,8 @@ const AdminPage = () => {
           </Box>
         </Paper>
       </Container>
+      <ToastContainer />
+
     </Layout>
   );
 };

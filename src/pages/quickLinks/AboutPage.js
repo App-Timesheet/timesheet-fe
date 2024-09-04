@@ -15,49 +15,46 @@ const AboutPage = () => {
       <Container>
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" gutterBottom sx={{ color: "#1976d2" }}>
-            Hakkımızda
+            About Us
           </Typography>
           <Typography variant="body1" gutterBottom sx={{ color: "#555" }}>
-            TimeSheet'e hoş geldiniz! Yenilikçi ve kullanımı kolay zaman takip
-            çözümlerimizle proje yönetimini devrim niteliğinde değiştirmeye
-            kararlıyız. Ekibimiz, projelerinizi verimli ve etkili bir şekilde
-            yönetmenize yardımcı olmaya tutkuyla bağlıdır.
+            Welcome to TimeSheet! We are committed to revolutionizing project
+            management with our innovative and easy-to-use time tracking
+            solutions. Our team is passionate about helping you manage your
+            projects efficiently and effectively.
           </Typography>
 
           <Box
             sx={{ my: 4, backgroundColor: "#f5f5f5", p: 3, borderRadius: 2 }}
           >
             <Typography variant="h5" gutterBottom sx={{ color: "#1976d2" }}>
-              Hikayemiz
+              Our Story
             </Typography>
             <Typography variant="body1" gutterBottom sx={{ color: "#555" }}>
-              2021 yılında kurulan TimeSheet, kısa sürede proje yönetimi
-              yazılımlarında güvenilir bir isim haline geldi. Platformumuz,
-              küçük girişimlerden büyük işletmelere kadar dünya çapında binlerce
-              ekip tarafından kullanılmaktadır. Teknolojinin iş süreçlerini
-              kolaylaştırma, iş birliğini artırma ve sonuçlar elde etme gücüne
-              inanıyoruz.
+              Founded in 2021, TimeSheet quickly became a trusted name in
+              project management software. Our platform is used by thousands of
+              teams worldwide, from small startups to large enterprises. We
+              believe in the power of technology to simplify workflows, enhance
+              collaboration, and achieve results.
             </Typography>
             <Typography variant="body1" gutterBottom sx={{ color: "#555" }}>
-              Misyonumuz, güçlü olmasının yanı sıra sezgisel ve kullanımı kolay
-              bir araç sunmaktır. Kullanıcı deneyimine odaklanıyoruz,
-              yazılımımızın herkes tarafından, teknik bilgi düzeyine
-              bakılmaksızın erişilebilir olmasını sağlıyoruz. Sürekli gelişime
-              bağlıyız ve kullanıcı geri bildirimlerine dayalı olarak
-              platformumuzu düzenli olarak güncelliyoruz.
+              Our mission is to provide a tool that is both powerful and easy to
+              use. We focus on user experience, ensuring our software is
+              accessible to everyone, regardless of technical knowledge. We are
+              committed to continuous improvement and regularly update our
+              platform based on user feedback.
             </Typography>
             <Typography variant="body1" gutterBottom sx={{ color: "#555" }}>
-              TimeSheet'te müşterilerimize değer veriyoruz ve uzun süreli
-              ilişkiler kurmaya çalışıyoruz. Müşteri destek ekibimiz,
-              karşılaşabileceğiniz her türlü soru veya sorunla ilgili olarak
-              size yardımcı olmaya her zaman hazırdır. Biz sadece bir yazılım
-              sağlayıcısı değiliz; başarınızda sizin ortağınızız.
+              At TimeSheet, we value our customers and strive to build lasting
+              relationships. Our customer support team is always ready to assist
+              you with any questions or issues you may encounter. We are not
+              just a software provider; we are your partner in success.
             </Typography>
           </Box>
 
           <Box sx={{ my: 4 }}>
             <Typography variant="h5" gutterBottom sx={{ color: "#1976d2" }}>
-              Temel Değerlerimiz
+              Our Core Values
             </Typography>
             <Stack
               spacing={4}
@@ -78,11 +75,10 @@ const AboutPage = () => {
                       gutterBottom
                       sx={{ color: "#1976d2" }}
                     >
-                      Yenilikçilik
+                      Innovation
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#555" }}>
-                      Sürekli olarak yenilik yapmaya ve platformumuzu
-                      geliştirmeye çalışıyoruz.
+                      We constantly strive to innovate and improve our platform.
                     </Typography>
                   </CardContent>
                 </Card>
@@ -101,11 +97,11 @@ const AboutPage = () => {
                       gutterBottom
                       sx={{ color: "#1976d2" }}
                     >
-                      Müşteri Odaklılık
+                      Customer Focus
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#555" }}>
-                      Müşterilerimiz, yaptığımız her şeyin merkezindedir.
-                      İhtiyaçlarınızı dinliyor ve size uygun çözümler sunuyoruz.
+                      Our customers are at the heart of everything we do. We
+                      listen to your needs and provide tailored solutions.
                     </Typography>
                   </CardContent>
                 </Card>
@@ -124,11 +120,11 @@ const AboutPage = () => {
                       gutterBottom
                       sx={{ color: "#1976d2" }}
                     >
-                      Dürüstlük
+                      Integrity
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#555" }}>
-                      İşimizi en yüksek dürüstlük ve şeffaflık standartlarına
-                      uygun şekilde yürütüyoruz.
+                      We conduct our business with the highest standards of
+                      honesty and transparency.
                     </Typography>
                   </CardContent>
                 </Card>
@@ -147,10 +143,10 @@ const AboutPage = () => {
                       gutterBottom
                       sx={{ color: "#1976d2" }}
                     >
-                      Mükemmeliyet
+                      Excellence
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#555" }}>
-                      İşimizin her alanında mükemmeliyeti hedefliyoruz.
+                      We aim for excellence in every aspect of our work.
                     </Typography>
                   </CardContent>
                 </Card>
@@ -162,12 +158,12 @@ const AboutPage = () => {
             sx={{ my: 4, backgroundColor: "#f5f5f5", p: 3, borderRadius: 2 }}
           >
             <Typography variant="h5" gutterBottom sx={{ color: "#1976d2" }}>
-              Ekibimizle Tanışın
+              Meet Our Team
             </Typography>
             <Typography variant="body1" gutterBottom sx={{ color: "#555" }}>
-              Ekibimiz, farklı geçmişlerden gelen yetenekli profesyonellerden
-              oluşmaktadır. Yaptığımız işe tutkuyla bağlıyız ve müşterilerimize
-              en iyi ürünü sunmayı taahhüt ediyoruz.
+              Our team is made up of talented professionals from diverse
+              backgrounds. We are passionate about what we do and are committed
+              to delivering the best product to our customers.
             </Typography>
             <Stack
               spacing={4}
@@ -191,8 +187,9 @@ const AboutPage = () => {
                       Yıldız Argun - CEO
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#555" }}>
-                      Yıldız, TimeSheet'in vizyoner lideridir ve şirketi
-                      yenilikçilik ve müşteri memnuniyeti odaklı yönetmektedir.
+                      Yıldız is the visionary leader of TimeSheet, guiding the
+                      company with a focus on innovation and customer
+                      satisfaction.
                     </Typography>
                   </CardContent>
                 </Card>
@@ -214,8 +211,8 @@ const AboutPage = () => {
                       İpek Tutku - CTO
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#555" }}>
-                      İpek, TimeSheet'in teknolojik altyapısını en ileri düzeyde
-                      tutan teknik bir dahidir.
+                      İpek is the technical genius who keeps TimeSheet's
+                      technological infrastructure cutting-edge.
                     </Typography>
                   </CardContent>
                 </Card>
@@ -237,8 +234,8 @@ const AboutPage = () => {
                       Kenan Şan - COO
                     </Typography>
                     <Typography variant="body2" sx={{ color: "#555" }}>
-                      Kenan, operasyonları yönetir ve her şeyin sorunsuz ve
-                      verimli bir şekilde çalışmasını sağlar.
+                      Kenan manages operations and ensures everything runs
+                      smoothly and efficiently.
                     </Typography>
                   </CardContent>
                 </Card>
@@ -248,15 +245,15 @@ const AboutPage = () => {
 
           <Box sx={{ my: 4 }}>
             <Typography variant="h5" gutterBottom sx={{ color: "#1976d2" }}>
-              Neden Bizi Seçmelisiniz?
+              Why Choose Us?
             </Typography>
             <Typography
               variant="body1"
               gutterBottom
               sx={{ color: "#555", maxWidth: "800px", mx: "auto" }}
             >
-              Proje yönetimi yazılımı konusunda birçok seçeneğinizin olduğunu
-              biliyoruz. İşte TimeSheet'i öne çıkaran nedenler:
+              We know you have many options when it comes to project management
+              software. Here's why TimeSheet stands out:
             </Typography>
             <Box
               component="ul"
@@ -270,36 +267,36 @@ const AboutPage = () => {
             >
               <li>
                 <Typography variant="body1">
-                  <strong>Kapsamlı Özellikler:</strong> Projelerinizi baştan
-                  sona yönetmenize yardımcı olacak geniş bir özellik yelpazesi
-                  sunuyoruz.
+                  <strong>Comprehensive Features:</strong> We offer a wide range
+                  of features to help you manage your projects from start to
+                  finish.
                 </Typography>
               </li>
               <li>
                 <Typography variant="body1">
-                  <strong>Kullanıcı Dostu Arayüz:</strong> Platformumuz
-                  kullanıcıyı merkeze alarak tasarlanmıştır, bu sayede kullanımı
-                  kolay ve gezinmesi basittir.
+                  <strong>User-Friendly Interface:</strong> Our platform is
+                  designed with the user in mind, making it easy to navigate and
+                  use.
                 </Typography>
               </li>
               <li>
                 <Typography variant="body1">
-                  <strong>Üstün Destek:</strong> Destek ekibimiz her zaman
-                  yanınızda, ihtiyaç duyduğunuz her an hızlı ve etkili yardım
-                  sunuyor.
+                  <strong>Exceptional Support:</strong> Our support team is
+                  always there for you, providing quick and effective help when
+                  you need it.
                 </Typography>
               </li>
               <li>
                 <Typography variant="body1">
-                  <strong>Uygun Fiyatlar:</strong> Her boyuttaki işletmeye uygun
-                  rekabetçi fiyat planları sunuyoruz.
+                  <strong>Affordable Pricing:</strong> We offer competitive
+                  pricing plans to suit businesses of all sizes.
                 </Typography>
               </li>
               <li>
                 <Typography variant="body1">
-                  <strong>Kendini Kanıtlamış Bir Geçmiş:</strong> Dünyanın dört
-                  bir yanındaki binlerce ekip, projelerini etkili bir şekilde
-                  yönetmek için TimeSheet'e güveniyor.
+                  <strong>Proven Track Record:</strong> Thousands of teams
+                  around the world trust TimeSheet to manage their projects
+                  effectively.
                 </Typography>
               </li>
             </Box>
@@ -309,25 +306,25 @@ const AboutPage = () => {
             sx={{ my: 4, backgroundColor: "#f5f5f5", p: 3, borderRadius: 2 }}
           >
             <Typography variant="h5" gutterBottom sx={{ color: "#1976d2" }}>
-              Sürdürülebilirliğe Bağlılığımız
+              Our Commitment to Sustainability
             </Typography>
             <Typography
               variant="body1"
               gutterBottom
               sx={{ color: "#555", maxWidth: "800px", mx: "auto" }}
             >
-              TimeSheet olarak gezegeni korumak için üzerimize düşeni yapmaya
-              inanıyoruz. Sürdürülebilir iş uygulamalarına bağlıyız ve çevresel
-              etkimizi azaltmanın yollarını sürekli olarak arıyoruz.
+              At TimeSheet, we believe in doing our part to protect the planet.
+              We are committed to sustainable business practices and constantly
+              seek ways to reduce our environmental impact.
             </Typography>
             <Typography
               variant="body1"
               sx={{ color: "#555", maxWidth: "800px", mx: "auto" }}
             >
-              Dijital iletişimi ve dokümantasyonu teşvik ederek kağıt
-              kullanımını en aza indiriyoruz. Veri merkezlerimiz yenilenebilir
-              enerji kaynaklarıyla çalışıyor ve karbon ayak izimizi azaltmak
-              için sürekli çalışıyoruz.
+              By promoting digital communication and documentation, we minimize
+              paper usage. Our data centers are powered by renewable energy
+              sources, and we are continuously working to reduce our carbon
+              footprint.
             </Typography>
           </Box>
         </Box>
