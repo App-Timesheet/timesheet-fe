@@ -20,6 +20,8 @@ import hepsi from "../../../assets/images/hepsi.png";
 import netlifx from "../../../assets/images/netflix.png";
 import mercedes from "../../../assets/images/mercedes.png";
 import Layout from "../../../Layout";
+import { loginContent } from "../../../Constants/content";
+
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -132,11 +134,7 @@ function Login() {
               <Typography variant="h4" gutterBottom>
                 Bring the big picture into view
               </Typography>
-              <Typography>
-                Easily track your team’s progress, priorities, and workload.
-                Identify blockers, celebrate wins, and plan ahead so your team
-                never misses a beat and projects always stay on track.
-              </Typography>
+              <Typography>{loginContent.featureDescription}</Typography>
             </Box>
           </Container>
         </Box>
@@ -207,11 +205,7 @@ function Login() {
               <Typography variant="h4" gutterBottom>
                 Bring the big picture into view
               </Typography>
-              <Typography>
-                Easily track your team’s progress, priorities, and workload.
-                Identify blockers, celebrate wins, and plan ahead so your team
-                never misses a beat and projects always stay on track.
-              </Typography>
+              <Typography>{loginContent.featureDescription}</Typography>
             </Box>
           </Container>
         </Box>
