@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Typography,
@@ -16,21 +16,16 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Switch,
-  IconButton,
-  Grid,
 } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
 import Layout from "../../Layout";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ButtonGroup from "../../components/button/ButtonGroup";
-import { registerUser } from "../../service/authService";
-
+import { registerUser, getAllUsers } from "../../service/userService"; // Yeni eklenen servis
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
-  const [roles] = useState(["Admin", "Project Manager", "Standard User"]);
+  const [roles] = useState(["PROJECT_MANAGER", "STANDARD_USER", "ADMIN"]);
   const [newUser, setNewUser] = useState({
     username: "",
     password: "",
@@ -39,13 +34,23 @@ const AdminPage = () => {
     role: "",
   });
   const [filter, setFilter] = useState("");
-  const [editingUserId, setEditingUserId] = useState(null); 
-  const [editUser, setEditUser] = useState({
-    username: "",
-    password: "",
-    role: "",
-    isActive: false,
-  });
+
+  // Sayfa yüklendiğinde kullanıcıları getir
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const userList = await getAllUsers();
+        console.log("Kullanıcı Listesi: ", userList);
+        setUsers(userList || []);
+      } catch (error) {
+        console.error("Kullanıcılar getirilemedi:", error.response?.data || error.message);
+        toast.error("Kullanıcılar getirilemedi.");
+      }
+      
+    };
+    fetchUsers();
+  }, []); 
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -65,16 +70,14 @@ const AdminPage = () => {
   const handleCreateUser = async () => {
     if (newUser.username && newUser.password) {
       try {
-        const userData = {
+        const response = await registerUser({
           username: newUser.username,
           password: newUser.password,
           email: newUser.email,
           nameSurname: newUser.fullname,
-          role: "ADMIN,STANDARD_USER,PROJECT_MANAGER",
-        };
-
-        await registerUser(userData); 
-        setUsers([...users, newUser]); 
+          role: newUser.role,
+        });
+        setUsers([...users, response]);
         toast.success("Kullanıcı başarıyla oluşturuldu.");
         setNewUser({
           username: "",
@@ -84,7 +87,7 @@ const AdminPage = () => {
           role: "",
         });
       } catch (error) {
-        toast.error("Kullanıcı oluşturulamadı.");
+        toast.error("Kullanıcı oluşturulurken bir hata oluştu.");
       }
     } else {
       toast.error("Lütfen kullanıcı adı ve şifre alanlarını doldurunuz.");
@@ -96,45 +99,13 @@ const AdminPage = () => {
     toast.success("Kullanıcı başarıyla silindi.");
   };
 
-  const handleEditClick = (user) => {
-    setEditingUserId(user.username); 
-    setEditUser({
-      username: user.username,
-      password: "",
-      role: user.role,
-      isActive: user.isActive || false,
-    });
-  };
-
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditUser({
-      ...editUser,
-      [name]: value,
-    });
-  };
-
-  const handleToggleActive = () => {
-    setEditUser((prev) => ({ ...prev, isActive: !prev.isActive }));
-  };
-
-  const handleSaveEdit = () => {
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.username === editingUserId ? { ...user, ...editUser } : user
-      )
-    );
-    setEditingUserId(null); 
-    toast.success("Kullanıcı güncellendi.");
-  };
-
   const handleFilterChange = (e) => {
     setFilter(e.target.value.toLowerCase());
   };
 
-  const filteredUsers = users.filter((user) =>
-    user.username.toLowerCase().includes(filter)
-  );
+  const filteredUsers = users.filter((user) => {
+    return user.username && user.username.toLowerCase().includes(filter);
+  });
 
   return (
     <Layout>
@@ -250,110 +221,25 @@ const AdminPage = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {filteredUsers.map((user) => (
-                        <React.Fragment key={user.username}>
-                          <TableRow>
+                      {filteredUsers.length > 0 ? (
+                        filteredUsers.map((user) => (
+                          <TableRow key={user.username}>
                             <TableCell>{user.username}</TableCell>
                             <TableCell>{user.email}</TableCell>
                             <TableCell>{user.fullname}</TableCell>
                             <TableCell>{user.role}</TableCell>
                             <TableCell>
-                              <IconButton
-                                onClick={() => handleEditClick(user)}
-                                color="primary"
-                              >
-                                <Edit />
-                              </IconButton>
-                              <IconButton
-                                onClick={() => handleDeleteUser(user.username)}
+                              <Button
+                                variant="outlined"
                                 color="error"
+                                onClick={() => handleDeleteUser(user.username)}
                               >
-                                <Delete />
-                              </IconButton>
+                                Sil
+                              </Button>
                             </TableCell>
                           </TableRow>
-                          {editingUserId === user.username && (
-                            <TableRow>
-                              <TableCell colSpan={5}>
-                                <Box
-                                  sx={{
-                                    p: 1,
-                                    backgroundColor: "#f9f9f9",
-                                    borderRadius: "8px",
-                                  }}
-                                >
-                                  <Grid container spacing={2}>
-                                    <Grid item xs={4}>
-                                      <TextField
-                                        label="Kullanıcı Adı"
-                                        variant="outlined"
-                                        fullWidth
-                                        margin="dense"
-                                        name="username"
-                                        value={editUser.username}
-                                        onChange={handleEditChange}
-                                      />
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                      <TextField
-                                        label="Şifre"
-                                        type="password"
-                                        variant="outlined"
-                                        fullWidth
-                                        margin="dense"
-                                        name="password"
-                                        value={editUser.password}
-                                        onChange={handleEditChange}
-                                      />
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                      <FormControl fullWidth margin="dense">
-                                        <InputLabel>Rol</InputLabel>
-                                        <Select
-                                          name="role"
-                                          value={editUser.role}
-                                          onChange={handleEditChange}
-                                        >
-                                          {roles.map((role) => (
-                                            <MenuItem key={role} value={role}>
-                                              {role}
-                                            </MenuItem>
-                                          ))}
-                                        </Select>
-                                      </FormControl>
-                                    </Grid>
-                                  </Grid>
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      mt: 2,
-                                    }}
-                                  >
-                                    <Switch
-                                      checked={editUser.isActive}
-                                      onChange={handleToggleActive}
-                                      inputProps={{ "aria-label": "Aktif mi?" }}
-                                    />
-                                    <Typography sx={{ ml: 1 }}>
-                                      {editUser.isActive ? "Aktif" : "Pasif"}
-                                    </Typography>
-                                  </Box>
-                                  <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleSaveEdit}
-                                    sx={{ mt: 2 }}
-                                  >
-                                    Kaydet
-                                  </Button>
-                                </Box>
-                              </TableCell>
-                            </TableRow>
-                          )}
-                        </React.Fragment>
-                      ))}
-                      {filteredUsers.length === 0 && (
+                        ))
+                      ) : (
                         <TableRow>
                           <TableCell colSpan={5} align="center">
                             Kullanıcı bulunamadı.
@@ -374,5 +260,3 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
-
-

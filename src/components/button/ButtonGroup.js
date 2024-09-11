@@ -10,18 +10,26 @@ const ButtonGroup = () => {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => navigate("/create-project")}
+        onClick={() => navigate("/admin")}
         sx={{ mx: 2 }}
       >
-        Proje Oluştur
+        USER
       </Button>
       <Button
         variant="contained"
-        color="secondary"
+        color="primary"
+        onClick={() => navigate("/create-project")}
+        sx={{ mx: 2 }}
+      >
+        PROJECT
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
         onClick={() => navigate("/add-task")}
         sx={{ mx: 2 }}
       >
-        Task Ekle
+        TASK
       </Button>
     </Box>
   );

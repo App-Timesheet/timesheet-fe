@@ -23,20 +23,31 @@ import mercedes from "../../assets/images/mercedes.png";
 import Layout from "../../Layout";
 import { loginContent } from "../../constants/content";
 import { login } from "../../service/authService";
+import { useNavigate } from 'react-router-dom';
+
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  
+  // useNavigate hook'unu çağır
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       const result = await login(username, password);
-      alert(`Login successful! Token: ${result.token}`);
+      
+      // Oturum açıldıktan sonra isLoggedIn değerini kaydediyoruz
+      localStorage.setItem('isLoggedIn', 'true');
+      
+      // Başarılı girişte yönlendirme
+      navigate('/admin');
     } catch (error) {
       setError("Login failed. Please check your credentials.");
     }
   };
+  
 
   return (
     <Layout>

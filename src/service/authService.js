@@ -15,18 +15,3 @@ const login = async (username, password) => {
 };
 
 export { login };
-
-const registerUser = async (userData) => {
-  try {
-    const response = await apiClient.post("/api/register", userData);
-    return response.data;
-  } catch (error) {
-    console.error("User registration failed:", error);
-    throw error;
-  }
-};
-
-export { registerUser };
-
-
-

@@ -1,17 +1,27 @@
-
 import React, { useState } from "react";
-import { Container, Typography, Paper, Box, Button } from "@mui/material";
+import { Container, Typography, Paper } from "@mui/material";
 import Layout from "../../Layout";
 import CreateProject from "../../components/project/CreateProject";
-import { useNavigate } from "react-router-dom";
 import ButtonGroup from "../../components/button/ButtonGroup";
+import { createProject } from "../../service/projectService"; 
 
 const CreateProjectPage = () => {
   const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
-
-  const handleCreateProject = (newProject) => {
   
+  const handleCreateProject = async (newProject) => {
+    try {
+      const projectData = {
+        name: newProject.name,
+        description: newProject.description,
+        userIds: newProject.users,
+        file: newProject.file,
+      };
+      
+      const response = await createProject(projectData);
+      console.log('Project created successfully:', response);
+    } catch (error) {
+      console.error('Error creating project:', error);
+    }
   };
 
   return (
@@ -20,9 +30,6 @@ const CreateProjectPage = () => {
         <Paper sx={{ p: 4 }}>
           <Typography variant="h4">Create Project</Typography>
           <ButtonGroup />
-
-         
-
           <CreateProject users={users} onCreateProject={handleCreateProject} />
         </Paper>
       </Container>

@@ -1,24 +1,35 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, FormControl, InputLabel, Select, List, ListItem, IconButton, Typography } from "@mui/material";
-import { Edit, Archive, Unarchive } from "@mui/icons-material";
+import { Box, TextField, Button, FormControl, InputLabel, Select, Typography, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Edit, Archive } from "@mui/icons-material";
 
 const CreateProject = ({ users, onCreateProject }) => {
   const [newProject, setNewProject] = useState({
     name: "",
     description: "",
     users: [],
+    file: null,
   });
   const [projects, setProjects] = useState([]);
-  const [archivedProjects, setArchivedProjects] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingProjectIndex, setEditingProjectIndex] = useState(null);
-  const [showArchived, setShowArchived] = useState(false); // Arşivlenen projeleri göstermek için
+  const [fileName, setFileName] = useState("Dosya seçilmedi");
 
   const handleProjectChange = (e) => {
     setNewProject({
       ...newProject,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewProject({
+        ...newProject,
+        file: file,
+      });
+      setFileName(file.name);
+    }
   };
 
   const handleCreateOrUpdateProject = () => {
@@ -30,8 +41,9 @@ const CreateProject = ({ users, onCreateProject }) => {
     } else {
       setProjects([...projects, newProject]);
     }
-    onCreateProject(newProject); // Proje oluşturma callback'i
-    setNewProject({ name: "", description: "", users: [] });
+    onCreateProject(newProject);
+    setNewProject({ name: "", description: "", users: [], file: null });
+    setFileName("Dosya seçilmedi");
   };
 
   const handleEditProject = (index) => {
@@ -41,15 +53,9 @@ const CreateProject = ({ users, onCreateProject }) => {
   };
 
   const handleArchiveProject = (index) => {
-    const projectToArchive = projects.splice(index, 1)[0];
-    setArchivedProjects([...archivedProjects, projectToArchive]);
-    setProjects([...projects]);
-  };
-
-  const handleUnarchiveProject = (index) => {
-    const projectToUnarchive = archivedProjects.splice(index, 1)[0];
-    setProjects([...projects, projectToUnarchive]);
-    setArchivedProjects([...archivedProjects]);
+    const updatedProjects = [...projects];
+    updatedProjects.splice(index, 1);
+    setProjects(updatedProjects);
   };
 
   return (
@@ -85,10 +91,7 @@ const CreateProject = ({ users, onCreateProject }) => {
             onChange={(e) =>
               setNewProject({
                 ...newProject,
-                users: Array.from(
-                  e.target.selectedOptions,
-                  (option) => option.value
-                ),
+                users: Array.from(e.target.selectedOptions, (option) => option.value),
               })
             }
           >
@@ -99,6 +102,18 @@ const CreateProject = ({ users, onCreateProject }) => {
             ))}
           </Select>
         </FormControl>
+        <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+          <Typography variant="body1" sx={{ mr: 2 }}>
+            Dosyalar:
+          </Typography>
+          <Button variant="contained" component="label">
+            Dosya Seç
+            <input type="file" hidden onChange={handleFileChange} />
+          </Button>
+          <Typography variant="body2" sx={{ ml: 2 }}>
+            {fileName}
+          </Typography>
+        </Box>
         <Button
           variant="contained"
           color="primary"
@@ -110,60 +125,44 @@ const CreateProject = ({ users, onCreateProject }) => {
       </Box>
 
       <Box sx={{ width: "65%" }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-          <Typography variant="h6">Project List</Typography>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => setShowArchived(!showArchived)}
-          >
-            {showArchived ? "Back to Projects" : "Archived Projects"}
-          </Button>
-        </Box>
-
-        {showArchived ? (
-          <List>
-            {archivedProjects.length > 0 ? (
-              archivedProjects.map((project, index) => (
-                <ListItem key={index} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Box>
-                    <Typography variant="subtitle1">{project.name}</Typography>
-                    <Typography variant="body2">{project.description}</Typography>
-                  </Box>
-                  <IconButton onClick={() => handleUnarchiveProject(index)}>
-                    <Unarchive />
-                  </IconButton>
-                </ListItem>
-              ))
-            ) : (
-              <Typography>No archived projects.</Typography>
-            )}
-          </List>
-        ) : (
-          // Aktif projeleri göster
-          <List>
-            {projects.length > 0 ? (
-              projects.map((project, index) => (
-                <ListItem key={index} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Box>
-                    <Typography variant="subtitle1">{project.name}</Typography>
-                    <Typography variant="body2">{project.description}</Typography>
-                  </Box>
-                  <Box>
-                    <IconButton onClick={() => handleEditProject(index)}>
-                      <Edit />
-                    </IconButton>
-                    <IconButton onClick={() => handleArchiveProject(index)}>
-                      <Archive />
-                    </IconButton>
-                  </Box>
-                </ListItem>
-              ))
-            ) : (
-              <Typography>No projects found.</Typography>
-            )}
-          </List>
-        )}
+        <Typography variant="h6">Project List</Typography>
+        <TableContainer component={Paper}>
+          <Table aria-label="projects table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Project Name</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell align="right">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {projects.length > 0 ? (
+                projects.map((project, index) => (
+                  <TableRow key={index}>
+                    <TableCell component="th" scope="row">
+                      {project.name}
+                    </TableCell>
+                    <TableCell>{project.description}</TableCell>
+                    <TableCell align="right">
+                      <IconButton onClick={() => handleEditProject(index)}>
+                        <Edit />
+                      </IconButton>
+                      <IconButton onClick={() => handleArchiveProject(index)}>
+                        <Archive />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={3} align="center">
+                    No projects found.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Box>
     </Box>
   );
