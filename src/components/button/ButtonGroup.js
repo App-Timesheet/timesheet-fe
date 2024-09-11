@@ -1,38 +1,42 @@
-import React from "react";
-import { Box, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { Box, Button, AppBar, Toolbar } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const ButtonGroup = () => {
+const ButtonGroupNav = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => navigate("/admin")}
-        sx={{ mx: 2 }}
-      >
-        USER
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => navigate("/create-project")}
-        sx={{ mx: 2 }}
-      >
-        PROJECT
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => navigate("/add-task")}
-        sx={{ mx: 2 }}
-      >
-        TASK
-      </Button>
-    </Box>
+    <AppBar position="relative" color="default" sx={{ backgroundColor: '#f8f9fa', boxShadow: 'none', borderBottom: '1px solid #e0e0e0' }}>
+      <Toolbar>
+        <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <Button
+            variant="text"
+            color="primary"
+            onClick={() => navigate("/admin")}
+            sx={{ mx: 2 }}
+          >
+            USER
+          </Button>
+          <Button
+            variant="text"
+            color="primary"
+            onClick={() => navigate("/create-project")}
+            sx={{ mx: 2 }}
+          >
+            PROJECT
+          </Button>
+          <Button
+            variant="text"
+            color="primary"
+            onClick={() => navigate("/add-task")}
+            sx={{ mx: 2 }}
+          >
+            TASK
+          </Button>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 
-export default ButtonGroup;
+export default ButtonGroupNav;

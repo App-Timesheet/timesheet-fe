@@ -5,7 +5,6 @@ export const createProject = async (projectData) => {
     const response = await apiClient.post('/api/projects/newProject', projectData);
     return response.data;
   } catch (error) {
-    console.error("Error creating project:", error);
     throw error;
   }
 };

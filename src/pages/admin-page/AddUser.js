@@ -21,7 +21,7 @@ import Layout from "../../Layout";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ButtonGroup from "../../components/button/ButtonGroup";
-import { registerUser, getAllUsers } from "../../service/userService"; // Yeni eklenen servis
+import { registerUser, getAllUsers } from "../../service/userService";
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -35,22 +35,17 @@ const AdminPage = () => {
   });
   const [filter, setFilter] = useState("");
 
-  // Sayfa yüklendiğinde kullanıcıları getir
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const userList = await getAllUsers();
-        console.log("Kullanıcı Listesi: ", userList);
         setUsers(userList || []);
       } catch (error) {
-        console.error("Kullanıcılar getirilemedi:", error.response?.data || error.message);
         toast.error("Kullanıcılar getirilemedi.");
       }
-      
     };
     fetchUsers();
-  }, []); 
-  
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Container, Typography, Paper, Box, Button } from "@mui/material";
 import Layout from "../../Layout";
@@ -11,9 +10,7 @@ const AddTaskPage = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
-  const handleCreateTask = (newTask) => {
-    
-  };
+  const handleCreateTask = (newTask) => {};
 
   return (
     <Layout>
@@ -21,9 +18,6 @@ const AddTaskPage = () => {
         <Paper sx={{ p: 4 }}>
           <Typography variant="h4">Add Task</Typography>
           <ButtonGroup />
-
-
-
 
           <AddTask
             projects={projects}

@@ -1,23 +1,24 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  overflow-x: hidden; /* Yatay kaydırmayı tamamen kapatıyoruz */
+  overflow-x: hidden;
 }
 
 .footer-root {
   background-color: #242424;
   padding: 16px 0;
-  width: 100%; /* 100vw yerine % kullanarak sağdaki boşluğu önleyelim */
-  overflow: hidden; /* Gereksiz scroll çubuğunu kaldırmak için */
+  width: 100%;
+  overflow: hidden;
+  margin-top: 30px;
 }
-
 
 .footer-container {
   width: 100%;
-  max-width: 100%; /* Taşmayı engellemek için maksimum genişlik */
+  max-width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -25,9 +26,6 @@ html, body {
   align-items: center;
   padding: 0 16px;
 }
-
-
-
 
 .footer-stack {
   margin-bottom: 16px;

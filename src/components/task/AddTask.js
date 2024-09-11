@@ -105,7 +105,6 @@ const AddTask = ({ projects, users }) => {
 
   return (
     <Box sx={{ display: "flex", mt: 2 }}>
-      {/* Sol taraf - Task Ekleme Formu */}
       <Box sx={{ width: "40%", mr: 4 }}>
         <FormControl fullWidth margin="normal">
           <InputLabel>Project</InputLabel>
@@ -212,7 +211,6 @@ const AddTask = ({ projects, users }) => {
         </Button>
       </Box>
 
-      {/* Sağ taraf - Task Listesi */}
       <Box sx={{ width: "60%" }}>
         <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
           <Button
@@ -262,10 +260,9 @@ const AddTask = ({ projects, users }) => {
           </Table>
         </Paper>
 
-        {/* Düzenleme Formu */}
         {editingTask && (
           <Box sx={{ mt: 4, p: 2, border: "1px solid #ccc", borderRadius: 2 }}>
-            <Typography variant="h6">Task Düzenle</Typography> {/* Typography eklendi */}
+            <Typography variant="h6">Task Düzenle</Typography> 
             <TextField
               label="Project"
               variant="outlined"

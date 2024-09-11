@@ -1,20 +1,18 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Box, IconButton, Tooltip } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import LogoutIcon from '@mui/icons-material/Logout'; // Logout ikonu
+import LogoutIcon from '@mui/icons-material/Logout'; 
 import logo from '../../assets/images/logo.png';
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Kullanıcının giriş yapıp yapmadığını kontrol ediyoruz
   const isLoggedIn = Boolean(localStorage.getItem('isLoggedIn'));
 
   const handleLogout = () => {
-    // Oturum bilgilerini temizle
     localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('token');  // Token'ı da sil
+    localStorage.removeItem('token'); 
     navigate('/');
   };
 
@@ -28,7 +26,6 @@ const Header = () => {
           </Typography>
         </Box>
         <Box sx={{ ml: 'auto' }}>
-          {/* Kullanıcı giriş yaptıysa ve login sayfasında değilse buton göster */}
           {isLoggedIn && location.pathname !== '/' && (
             <Tooltip title="Çıkış Yap" arrow>
               <IconButton
@@ -36,16 +33,16 @@ const Header = () => {
                 onClick={handleLogout}
                 aria-label="logout"
                 sx={{
-                  backgroundColor: '#e0e0e0', // Sayfa ile uyumlu nötr bir renk
+                  backgroundColor: '#e0e0e0',
                   '&:hover': {
-                    backgroundColor: '#bdbdbd', // Hover efektinde daha koyu bir gri
+                    backgroundColor: '#bdbdbd', 
                   },
-                  color: 'black', // İkonun rengi siyah
+                  color: 'black', 
                   padding: 1,
-                  borderRadius: '50%', // Yuvarlak yapıyoruz
+                  borderRadius: '50%', 
                 }}
               >
-                <LogoutIcon fontSize="medium" /> {/* Boyutu küçülttük */}
+                <LogoutIcon fontSize="medium" /> 
               </IconButton>
             </Tooltip>
           )}
