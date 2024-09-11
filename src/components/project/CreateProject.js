@@ -1,12 +1,30 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, FormControl, InputLabel, Select, Typography, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 import { Edit, Archive } from "@mui/icons-material";
+import { createProject } from '../../service/projectService'; 
 
 const CreateProject = ({ users, onCreateProject }) => {
   const [newProject, setNewProject] = useState({
     name: "",
     description: "",
-    users: [],
+    usernames: [], 
     file: null,
   });
   const [projects, setProjects] = useState([]);
@@ -32,17 +50,32 @@ const CreateProject = ({ users, onCreateProject }) => {
     }
   };
 
-  const handleCreateOrUpdateProject = () => {
-    if (isEditing) {
-      const updatedProjects = [...projects];
-      updatedProjects[editingProjectIndex] = newProject;
-      setProjects(updatedProjects);
-      setIsEditing(false);
-    } else {
-      setProjects([...projects, newProject]);
+  const handleUserNameChange = (e) => {
+    const selectedUsernames = e.target.value;
+    setNewProject({
+      ...newProject,
+      usernames: selectedUsernames, 
+    });
+  };
+
+  const handleCreateOrUpdateProject = async () => {
+    const formData = new FormData();
+    formData.append("name", newProject.name);
+    formData.append("description", newProject.description);
+    formData.append("userNames", newProject.usernames); 
+    if (newProject.file) {
+      formData.append("file", newProject.file); 
     }
-    onCreateProject(newProject);
-    setNewProject({ name: "", description: "", users: [], file: null });
+
+    console.log("Gönderilen proje verisi:", formData);
+
+    try {
+      await createProject(formData);
+    } catch (error) {
+      console.error("Proje oluşturulamadı:", error);
+    }
+
+    setNewProject({ name: "", description: "", usernames: [], file: null });
     setFileName("Dosya seçilmedi");
   };
 
@@ -61,7 +94,9 @@ const CreateProject = ({ users, onCreateProject }) => {
   return (
     <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
       <Box sx={{ width: "30%" }}>
-        <Typography variant="h6">{isEditing ? "Update Project" : "Create Project"}</Typography>
+        <Typography variant="h6">
+          {isEditing ? "Update Project" : "Create Project"}
+        </Typography>
         <TextField
           label="Project Name"
           variant="outlined"
@@ -82,26 +117,24 @@ const CreateProject = ({ users, onCreateProject }) => {
           multiline
           rows={4}
         />
+
         <FormControl fullWidth margin="normal">
-          <InputLabel>Users</InputLabel>
+          <InputLabel id="user-select-label">Kullanıcılar</InputLabel>
           <Select
+            labelId="user-select-label"
             multiple
-            native
-            value={newProject.users}
-            onChange={(e) =>
-              setNewProject({
-                ...newProject,
-                users: Array.from(e.target.selectedOptions, (option) => option.value),
-              })
-            }
+            value={newProject.usernames}
+            onChange={handleUserNameChange}
+            renderValue={(selected) => selected.join(", ")} 
           >
             {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.username}
-              </option>
+              <MenuItem key={user.username} value={user.username}>
+                {user.nameSurname}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
+
         <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
           <Typography variant="body1" sx={{ mr: 2 }}>
             Dosyalar:
@@ -114,6 +147,7 @@ const CreateProject = ({ users, onCreateProject }) => {
             {fileName}
           </Typography>
         </Box>
+
         <Button
           variant="contained"
           color="primary"

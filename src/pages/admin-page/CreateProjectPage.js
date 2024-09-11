@@ -1,24 +1,43 @@
-import React, { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { Container, Typography, Paper } from "@mui/material";
 import Layout from "../../Layout";
 import CreateProject from "../../components/project/CreateProject";
 import ButtonGroup from "../../components/button/ButtonGroup";
 import { createProject } from "../../service/projectService";
+import { getAllUsers } from "../../service/userService";
 
 const CreateProjectPage = () => {
   const [users, setUsers] = useState([]);
 
-  const handleCreateProject = async (newProject) => {
-    try {
-      const projectData = {
-        name: newProject.name,
-        description: newProject.description,
-        userIds: newProject.users,
-        file: newProject.file,
-      };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const userList = await getAllUsers();
+        console.log(userList); 
+        setUsers(userList); 
+      } catch (error) {
+        console.error("Kullanıcılar getirilemedi:", error);
+      }
+    };
+    fetchUsers();
+  }, []);
 
-      const response = await createProject(projectData);
-    } catch (error) {}
+  const handleCreateProject = async (newProject) => {
+    const projectData = {
+      name: newProject.name,
+      description: newProject.description,
+      userNames: [newProject.username], 
+      file: newProject.file,
+    };
+
+    console.log("Gönderilen proje verisi:", projectData); 
+    
+    try {
+      await createProject(projectData);
+    } catch (error) {
+      console.error("Proje oluşturulamadı:", error);
+    }
   };
 
   return (
@@ -35,3 +54,4 @@ const CreateProjectPage = () => {
 };
 
 export default CreateProjectPage;
+

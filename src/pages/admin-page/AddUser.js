@@ -30,7 +30,7 @@ const AdminPage = () => {
     username: "",
     password: "",
     email: "",
-    fullname: "",
+    nameSurname: "",
     role: "",
   });
   const [filter, setFilter] = useState("");
@@ -69,7 +69,7 @@ const AdminPage = () => {
           username: newUser.username,
           password: newUser.password,
           email: newUser.email,
-          nameSurname: newUser.fullname,
+          nameSurname: newUser.nameSurname,
           role: newUser.role,
         });
         setUsers([...users, response]);
@@ -78,7 +78,7 @@ const AdminPage = () => {
           username: "",
           password: "",
           email: "",
-          fullname: "",
+          nameSurname: "",
           role: "",
         });
       } catch (error) {
@@ -159,10 +159,11 @@ const AdminPage = () => {
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    name="fullname"
-                    value={newUser.fullname}
+                    name="nameSurname"
+                    value={newUser.nameSurname}
                     onChange={handleInputChange}
                   />
+
                   <FormControl fullWidth margin="normal">
                     <InputLabel>Rol</InputLabel>
                     <Select value={newUser.role} onChange={handleRoleChange}>
@@ -212,7 +213,6 @@ const AdminPage = () => {
                         <TableCell>Email</TableCell>
                         <TableCell>İsim Soyisim</TableCell>
                         <TableCell>Rol</TableCell>
-                        <TableCell>İşlemler</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -221,17 +221,8 @@ const AdminPage = () => {
                           <TableRow key={user.username}>
                             <TableCell>{user.username}</TableCell>
                             <TableCell>{user.email}</TableCell>
-                            <TableCell>{user.fullname}</TableCell>
+                            <TableCell>{user.nameSurname}</TableCell>
                             <TableCell>{user.role}</TableCell>
-                            <TableCell>
-                              <Button
-                                variant="outlined"
-                                color="error"
-                                onClick={() => handleDeleteUser(user.username)}
-                              >
-                                Sil
-                              </Button>
-                            </TableCell>
                           </TableRow>
                         ))
                       ) : (

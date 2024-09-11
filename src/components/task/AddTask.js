@@ -1,5 +1,26 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, FormControl, InputLabel, Select, MenuItem, Table, TableBody, TableCell, TableHead, TableRow, IconButton, Paper, Typography } from "@mui/material"; 
+import {
+  Box,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  IconButton,
+  Paper,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import ArchiveIcon from '@mui/icons-material/Archive';
 
@@ -102,6 +123,41 @@ const AddTask = ({ projects, users }) => {
   const displayedTasks = showActiveTasks
     ? tasks.filter((task) => task.isActive)
     : tasks;
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+
+  const [logData, setLogData] = useState({
+    taskId: "",
+    date: "",
+    hours: "",
+    comments: "",
+    activity: "",
+  });
+
+  const handleOpenDialog = (task) => {
+    setSelectedTask(task);
+    setLogData({ ...logData, taskId: task.id }); 
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedTask(null);
+    setLogData({ taskId: "", date: "", hours: "", comments: "", activity: "" }); 
+  };
+
+  const handleFormChange = (e) => {
+    setLogData({
+      ...logData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFormSubmit = () => {
+    console.log("Form verileri:", logData); 
+    handleCloseDialog();
+  };
 
   return (
     <Box sx={{ display: "flex", mt: 2 }}>
@@ -241,8 +297,8 @@ const AddTask = ({ projects, users }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {displayedTasks.map((task, index) => (
-                <TableRow key={index}>
+              {displayedTasks.map((task) => (
+                <TableRow key={task.id}>
                   <TableCell>{task.project}</TableCell>
                   <TableCell>{task.type}</TableCell>
                   <TableCell>{task.subject}</TableCell>
@@ -253,6 +309,9 @@ const AddTask = ({ projects, users }) => {
                     <IconButton>
                       <ArchiveIcon />
                     </IconButton>
+                    <IconButton onClick={() => handleOpenDialog(task)}>
+                      <AddIcon /> 
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}
@@ -262,7 +321,7 @@ const AddTask = ({ projects, users }) => {
 
         {editingTask && (
           <Box sx={{ mt: 4, p: 2, border: "1px solid #ccc", borderRadius: 2 }}>
-            <Typography variant="h6">Task Düzenle</Typography> 
+            <Typography variant="h6">Task Düzenle</Typography>
             <TextField
               label="Project"
               variant="outlined"
@@ -332,6 +391,66 @@ const AddTask = ({ projects, users }) => {
               Update Task
             </Button>
           </Box>
+        )}
+
+        {selectedTask && (
+          <Dialog open={openDialog} onClose={handleCloseDialog}>
+            <DialogTitle>Log Ekle - Task ID: {selectedTask.id}</DialogTitle>
+            <DialogContent>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Tarih"
+                  type="date"
+                  name="date"
+                  value={logData.date}
+                  onChange={handleFormChange}
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Saat"
+                  type="number"
+                  name="hours"
+                  value={logData.hours}
+                  onChange={handleFormChange}
+                  fullWidth
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <TextField
+                  label="Yorumlar"
+                  name="comments"
+                  value={logData.comments}
+                  onChange={handleFormChange}
+                  multiline
+                  rows={4}
+                  fullWidth
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel>Faaliyet</InputLabel>
+                <Select
+                  name="activity"
+                  value={logData.activity}
+                  onChange={handleFormChange}
+                >
+                  <MenuItem value="Design">Design</MenuItem>
+                  <MenuItem value="Development">Development</MenuItem>
+                  <MenuItem value="Analysis">Analysis</MenuItem>
+                  <MenuItem value="Test">Test</MenuItem>
+                  <MenuItem value="Devops">Devops</MenuItem>
+                </Select>
+              </FormControl>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseDialog}>İptal</Button>
+              <Button onClick={handleFormSubmit} variant="contained" color="primary">
+                Tamam
+              </Button>
+            </DialogActions>
+          </Dialog>
         )}
       </Box>
     </Box>

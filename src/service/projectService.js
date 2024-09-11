@@ -8,3 +8,12 @@ export const createProject = async (projectData) => {
     throw error;
   }
 };
+
+export const getAllProjects = async () => {
+  try {
+    const response = await apiClient.get('/api/projects/getAllProjects');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

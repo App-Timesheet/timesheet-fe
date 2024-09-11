@@ -16,7 +16,7 @@ const AddTaskPage = () => {
     <Layout>
       <Container>
         <Paper sx={{ p: 4 }}>
-          <Typography variant="h4">Add Task</Typography>
+          <Typography variant="h4" gutterBottom align="center">Add Task</Typography>
           <ButtonGroup />
 
           <AddTask
