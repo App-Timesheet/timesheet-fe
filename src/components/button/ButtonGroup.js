@@ -39,4 +39,8 @@ const ButtonGroupNav = () => {
   );
 };
 
+<<<<<<< HEAD
 export default ButtonGroupNav;
+=======
+export default ButtonGroupNav;
+>>>>>>> 6a1b418dc14ac35d5fe523f371ea4d6f327cb19c
