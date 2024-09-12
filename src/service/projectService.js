@@ -1,11 +1,12 @@
 import apiClient from "../interceptor";
 
 // Proje ekleme
+
 export const createProject = async (projectData) => {
   try {
     const response = await apiClient.post("/api/projects/newProject", projectData, {
       headers: {
-        "Content-Type": "application/json", // JSON formatında gönderim yapıyoruz
+        // "Content-Type" başlığını ayarlamayın, tarayıcı otomatik ayarlayacaktır
       },
     });
     return response.data;
@@ -13,6 +14,7 @@ export const createProject = async (projectData) => {
     throw error;
   }
 };
+
 
 
 // Tüm projeleri listeleme

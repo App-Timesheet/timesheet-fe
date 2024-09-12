@@ -34,24 +34,31 @@ const CreateProject = ({ users, projects, onCreateProject }) => {
   });
 
   const onSubmit = (data) => {
+    console.log("Selected usernames:", data.usernames); // Burada kullanıcı adlarını kontrol edin.
+  
+    // FormData nesnesini oluştur
     const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-
-    // userNames dizisini JSON formatına çevirip ekliyoruz
-    formData.append("userNames", JSON.stringify(data.usernames)); 
-
-    // Eğer dosya seçilmişse
+    formData.append("name", data.name); // Proje adını ekle
+    formData.append("description", data.description); // Proje açıklamasını ekle
+  
+    // userNames dizisini tek tek ekle
+    data.usernames.forEach((username) => {
+      formData.append("userNames", username); // Backend diziyi bu şekilde bekliyor olabilir
+    });
+  
+    // Eğer bir dosya seçildiyse, FormData'ya dosyayı ekle
     if (data.file && data.file.length > 0) {
-      formData.append("file", data.file[0]);
+      formData.append("file", data.file[0]); // Dosya ekleniyor
     }
-
-    // API'ye proje ekleme fonksiyonunu çağırıyoruz
+  
+    // Proje ekleme işlemini başlat
     onCreateProject(formData);
-
-    // Formu temizleme
+  
+    // Formu temizle
     reset();
   };
+  
+  
 
   return (
     <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
@@ -90,7 +97,9 @@ const CreateProject = ({ users, projects, onCreateProject }) => {
                 multiline
                 rows={4}
                 error={!!errors.description}
-                helperText={errors.description ? errors.description.message : ""}
+                helperText={
+                  errors.description ? errors.description.message : ""
+                }
               />
             )}
           />
@@ -105,19 +114,11 @@ const CreateProject = ({ users, projects, onCreateProject }) => {
                   {...field}
                   labelId="user-select-label"
                   multiple
-                  renderValue={(selected) =>
-                    // Seçilen kullanıcıların `nameSurname` bilgilerini gösteriyoruz
-                    selected
-                      .map((username) =>
-                        users.find((user) => user.username === username)
-                          ?.nameSurname
-                      )
-                      .join(", ")
-                  }
+                  renderValue={(selected) => selected.join(", ")} // Seçilen kullanıcıları virgülle ayırarak gösteriyoruz.
                 >
                   {users.map((user) => (
                     <MenuItem key={user.username} value={user.username}>
-                      {user.nameSurname} {/* Kullanıcı adını değil, isim soyisimi gösteriyoruz */}
+                      {user.username}
                     </MenuItem>
                   ))}
                 </Select>
