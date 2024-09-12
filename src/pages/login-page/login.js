@@ -37,11 +37,13 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const result = await login(username, password);
-      localStorage.setItem("token", result.token);
-      localStorage.setItem("role", result.role);
+      const result = await login(username, password); 
+      localStorage.setItem("token", result.token); 
+      localStorage.setItem("role", result.role);  
+      localStorage.setItem("userId", result.id);  
       localStorage.setItem("isLoggedIn", "true"); 
-      setUserRole(result.role);
+      setUserRole(result.role); 
+  
       if (result.role === "ADMIN") {
         navigate("/admin");
       } else if (result.role === "PROJECT_MANAGER") {
@@ -53,6 +55,8 @@ function Login() {
       setError("Login failed. Please check your credentials.");
     }
   };
+  
+  
   
 
   return (

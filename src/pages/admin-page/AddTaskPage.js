@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Container, Typography, Paper, Box, Button } from "@mui/material";
 import Layout from "../../Layout";
-import AddTask from "../../components/task/AddTask";
+import AddTask from "../../Components/task/AddTask";
 import { useNavigate } from "react-router-dom";
-import ButtonGroup from "../../components/button/ButtonGroup";
+import ButtonGroup from "../../Components/button/ButtonGroup";
 
 const AddTaskPage = () => {
   const [projects, setProjects] = useState([]);

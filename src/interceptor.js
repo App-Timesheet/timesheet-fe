@@ -7,12 +7,11 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token"); // JWT token'ı localStorage'dan al
+    const token = localStorage.getItem("token"); 
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`; // Token'ı Authorization header'a ekle
+      config.headers["Authorization"] = `Bearer ${token}`; 
     }
 
-    // Eğer veriler FormData ise Content-Type ayarlama, tarayıcı otomatik ayarlayacak
     if (!(config.data instanceof FormData)) {
       config.headers["Content-Type"] = "application/json";
     }

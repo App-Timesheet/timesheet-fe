@@ -1,10 +1,6 @@
+
 import React, { useContext } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/login-page/login.js";
 import AdminPage from "./pages/admin-page/AddUser.js";
 import AboutPage from "./pages/quick-links/AboutPage.js";
@@ -14,6 +10,7 @@ import SupportPage from "./pages/quick-links/SupportPage.js";
 import CreateProjectPage from "./pages/admin-page/CreateProjectPage.js";
 import AddTaskPage from "./pages/admin-page/AddTaskPage.js";
 import { AuthContext } from "./AuthContext.js";
+
 
 function App() {
   const { userRole } = useContext(AuthContext);
