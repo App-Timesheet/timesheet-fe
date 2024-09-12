@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   TextField,
   Button,
   Typography,
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -17,156 +16,156 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import { Edit, Archive } from "@mui/icons-material";
-import { createProject } from '../../service/projectService'; 
+import { useForm, Controller } from "react-hook-form";
 
-const CreateProject = ({ users, onCreateProject }) => {
-  const [newProject, setNewProject] = useState({
-    name: "",
-    description: "",
-    usernames: [], 
-    file: null,
+const CreateProject = ({ users, projects, onCreateProject }) => {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+      description: "",
+      usernames: [], // Proje için seçilecek kullanıcıların usernames alanı
+      file: null,
+    },
   });
-  const [projects, setProjects] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editingProjectIndex, setEditingProjectIndex] = useState(null);
-  const [fileName, setFileName] = useState("Dosya seçilmedi");
 
-  const handleProjectChange = (e) => {
-    setNewProject({
-      ...newProject,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setNewProject({
-        ...newProject,
-        file: file,
-      });
-      setFileName(file.name);
-    }
-  };
-
-  const handleUserNameChange = (e) => {
-    const selectedUsernames = e.target.value;
-    setNewProject({
-      ...newProject,
-      usernames: selectedUsernames, 
-    });
-  };
-
-  const handleCreateOrUpdateProject = async () => {
+  const onSubmit = (data) => {
     const formData = new FormData();
-    formData.append("name", newProject.name);
-    formData.append("description", newProject.description);
-    formData.append("userNames", newProject.usernames); 
-    if (newProject.file) {
-      formData.append("file", newProject.file); 
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+
+    // userNames dizisini JSON formatına çevirip ekliyoruz
+    formData.append("userNames", JSON.stringify(data.usernames)); 
+
+    // Eğer dosya seçilmişse
+    if (data.file && data.file.length > 0) {
+      formData.append("file", data.file[0]);
     }
 
-    console.log("Gönderilen proje verisi:", formData);
+    // API'ye proje ekleme fonksiyonunu çağırıyoruz
+    onCreateProject(formData);
 
-    try {
-      await createProject(formData);
-    } catch (error) {
-      console.error("Proje oluşturulamadı:", error);
-    }
-
-    setNewProject({ name: "", description: "", usernames: [], file: null });
-    setFileName("Dosya seçilmedi");
-  };
-
-  const handleEditProject = (index) => {
-    setNewProject(projects[index]);
-    setIsEditing(true);
-    setEditingProjectIndex(index);
-  };
-
-  const handleArchiveProject = (index) => {
-    const updatedProjects = [...projects];
-    updatedProjects.splice(index, 1);
-    setProjects(updatedProjects);
+    // Formu temizleme
+    reset();
   };
 
   return (
     <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
       <Box sx={{ width: "30%" }}>
-        <Typography variant="h6">
-          {isEditing ? "Update Project" : "Create Project"}
-        </Typography>
-        <TextField
-          label="Project Name"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          name="name"
-          value={newProject.name}
-          onChange={handleProjectChange}
-        />
-        <TextField
-          label="Project Description"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          name="description"
-          value={newProject.description}
-          onChange={handleProjectChange}
-          multiline
-          rows={4}
-        />
+        <Typography variant="h6">Proje Oluştur</Typography>
 
-        <FormControl fullWidth margin="normal">
-          <InputLabel id="user-select-label">Kullanıcılar</InputLabel>
-          <Select
-            labelId="user-select-label"
-            multiple
-            value={newProject.usernames}
-            onChange={handleUserNameChange}
-            renderValue={(selected) => selected.join(", ")} 
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            name="name"
+            control={control}
+            rules={{ required: "Proje adı gerekli" }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Proje Adı"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                error={!!errors.name}
+                helperText={errors.name ? errors.name.message : ""}
+              />
+            )}
+          />
+
+          <Controller
+            name="description"
+            control={control}
+            rules={{ required: "Proje açıklaması gerekli" }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Proje Açıklaması"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                multiline
+                rows={4}
+                error={!!errors.description}
+                helperText={errors.description ? errors.description.message : ""}
+              />
+            )}
+          />
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="user-select-label">Kullanıcılar</InputLabel>
+            <Controller
+              name="usernames"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  labelId="user-select-label"
+                  multiple
+                  renderValue={(selected) =>
+                    // Seçilen kullanıcıların `nameSurname` bilgilerini gösteriyoruz
+                    selected
+                      .map((username) =>
+                        users.find((user) => user.username === username)
+                          ?.nameSurname
+                      )
+                      .join(", ")
+                  }
+                >
+                  {users.map((user) => (
+                    <MenuItem key={user.username} value={user.username}>
+                      {user.nameSurname} {/* Kullanıcı adını değil, isim soyisimi gösteriyoruz */}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
+            />
+          </FormControl>
+
+          <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+            <Typography variant="body1" sx={{ mr: 2 }}>
+              Dosyalar:
+            </Typography>
+
+            <Controller
+              name="file"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <Button variant="contained" component="label">
+                  Dosya Seç
+                  <input
+                    type="file"
+                    hidden
+                    onChange={(e) => onChange(e.target.files)} // Dosya değişimini izliyoruz
+                  />
+                </Button>
+              )}
+            />
+          </Box>
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
           >
-            {users.map((user) => (
-              <MenuItem key={user.username} value={user.username}>
-                {user.nameSurname}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
-          <Typography variant="body1" sx={{ mr: 2 }}>
-            Dosyalar:
-          </Typography>
-          <Button variant="contained" component="label">
-            Dosya Seç
-            <input type="file" hidden onChange={handleFileChange} />
+            Proje Oluştur
           </Button>
-          <Typography variant="body2" sx={{ ml: 2 }}>
-            {fileName}
-          </Typography>
-        </Box>
-
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleCreateOrUpdateProject}
-          sx={{ mt: 2 }}
-        >
-          {isEditing ? "Update Project" : "Create Project"}
-        </Button>
+        </form>
       </Box>
 
       <Box sx={{ width: "65%" }}>
-        <Typography variant="h6">Project List</Typography>
+        <Typography variant="h6">Proje Listesi</Typography>
         <TableContainer component={Paper}>
           <Table aria-label="projects table">
             <TableHead>
               <TableRow>
-                <TableCell>Project Name</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell align="right">Actions</TableCell>
+                <TableCell>Proje Adı</TableCell>
+                <TableCell>Açıklama</TableCell>
+                <TableCell align="right">İşlemler</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -178,19 +177,14 @@ const CreateProject = ({ users, onCreateProject }) => {
                     </TableCell>
                     <TableCell>{project.description}</TableCell>
                     <TableCell align="right">
-                      <IconButton onClick={() => handleEditProject(index)}>
-                        <Edit />
-                      </IconButton>
-                      <IconButton onClick={() => handleArchiveProject(index)}>
-                        <Archive />
-                      </IconButton>
+                      {/* İşlemler buraya eklenebilir */}
                     </TableCell>
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
                   <TableCell colSpan={3} align="center">
-                    No projects found.
+                    Proje bulunamadı.
                   </TableCell>
                 </TableRow>
               )}

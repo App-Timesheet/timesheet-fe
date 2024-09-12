@@ -1,5 +1,6 @@
 import apiClient from "../interceptor";
 
+// Yeni kullanıcı kaydı
 export const registerUser = async (newUser) => {
   try {
     const response = await apiClient.post("/api/register", newUser);
@@ -9,6 +10,7 @@ export const registerUser = async (newUser) => {
   }
 };
 
+// Tüm kullanıcıları getir
 export const getAllUsers = async () => {
   try {
     const response = await apiClient.get("/api/users/getAllUsers");
@@ -17,4 +19,3 @@ export const getAllUsers = async () => {
     throw error;
   }
 };
-
