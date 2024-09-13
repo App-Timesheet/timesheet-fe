@@ -24,38 +24,38 @@ import netflix from "../../assets/images/netflix.png";
 import mercedes from "../../assets/images/mercedes.png";
 import Layout from "../../Layout";
 import { loginContent } from "../../constants/content";
-import { login } from "../../service/authService";
-import { useNavigate } from "react-router-dom";
+import { login } from "../../service/authService"; // API fonksiyonunu içeri aktar
+import { useNavigate } from "react-router-dom"; // useNavigate React Router'dan geliyor
 
-function Login() {
+
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { setUserRole } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const result = await login(username, password); 
-      localStorage.setItem("token", result.token); 
-      localStorage.setItem("role", result.role);  
-      localStorage.setItem("userId", result.id);  
-      localStorage.setItem("isLoggedIn", "true"); 
-      setUserRole(result.role); 
-  
+      const result = await login(username, password); // API'den sonucu al
+      localStorage.setItem("token", result.token); // Token'ı sakla
+      localStorage.setItem("role", result.role); // Rolü sakla
+      localStorage.setItem("userId", result.id); // UserId'yi sakla
+      localStorage.setItem("isLoggedIn", "true"); // Oturum açma bilgisini sakla
+      setUserRole(result.role); // Rolü güncelle
+
+      // Rol bazlı yönlendirme
       if (result.role === "ADMIN") {
-        navigate("/admin");
+        navigate("/admin"); // useNavigate ile ADMIN rolüne sahip kullanıcı admin sayfasına yönlendirilir
       } else if (result.role === "PROJECT_MANAGER") {
-        navigate("/create-project");
-      } else if (result.role === "STANDARD_USER") {
-        navigate("/add-task");
+        navigate("/create-project"); // Project Manager sayfasına yönlendirilir
+      } else {
+        navigate("/add-task"); // Standart kullanıcı task sayfasına yönlendirilir
       }
     } catch (error) {
       setError("Login failed. Please check your credentials.");
     }
   };
-  
   
   
 
