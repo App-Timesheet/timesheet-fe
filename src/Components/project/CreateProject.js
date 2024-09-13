@@ -28,7 +28,7 @@ const CreateProject = ({ users, projects, onCreateProject }) => {
     defaultValues: {
       name: "",
       description: "",
-      usernames: [], 
+      usernames: [],
       file: null,
     },
   });
@@ -38,21 +38,19 @@ const CreateProject = ({ users, projects, onCreateProject }) => {
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("description", data.description);
-      data.usernames.forEach((username) => formData.append("userNames", username));
-  
+      data.usernames.forEach((username) =>
+        formData.append("userNames", username)
+      );
+
       if (data.file && data.file.length > 0) {
         formData.append("file", data.file[0]);
       }
-  
-      await onCreateProject(formData); 
-  
+
+      await onCreateProject(formData);
+
       reset();
-    } catch (error) {
-    }
+    } catch (error) {}
   };
-  
-  
-  
 
   return (
     <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
@@ -108,7 +106,7 @@ const CreateProject = ({ users, projects, onCreateProject }) => {
                   {...field}
                   labelId="user-select-label"
                   multiple
-                  renderValue={(selected) => selected.join(", ")} 
+                  renderValue={(selected) => selected.join(", ")}
                 >
                   {users.map((user) => (
                     <MenuItem key={user.username} value={user.username}>
@@ -134,7 +132,7 @@ const CreateProject = ({ users, projects, onCreateProject }) => {
                   <input
                     type="file"
                     hidden
-                    onChange={(e) => onChange(e.target.files)} 
+                    onChange={(e) => onChange(e.target.files)}
                   />
                 </Button>
               )}

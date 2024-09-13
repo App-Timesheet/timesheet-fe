@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
   TextField,
@@ -20,46 +20,17 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import ArchiveIcon from '@mui/icons-material/Archive';
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import ArchiveIcon from "@mui/icons-material/Archive";
+import { createTask, getAllTasks, getTasksByUserId, updateTask } from "../../service/taskService";
+import { getAllProjects, getProjectsByUserId } from "../../service/projectService"; 
+import { getAllUsers } from "../../service/userService"; 
+import { AuthContext } from "../../AuthContext";
 
-const AddTask = ({ projects, users }) => {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      project: "Project A",
-      type: "Development",
-      subject: "Frontend Development",
-      description: "Develop the user interface",
-      startDate: "2024-09-10",
-      endDate: "2024-09-15",
-      assignedUsers: ["User 1", "User 2"],
-      isActive: true,
-    },
-    {
-      id: 2,
-      project: "Project B",
-      type: "Testing",
-      subject: "API Testing",
-      description: "Test all API endpoints",
-      startDate: "2024-09-12",
-      endDate: "2024-09-20",
-      assignedUsers: ["User 3"],
-      isActive: true,
-    },
-    {
-      id: 3,
-      project: "Project C",
-      type: "Design",
-      subject: "UI Design",
-      description: "Design the landing page",
-      startDate: "2024-09-08",
-      endDate: "2024-09-12",
-      assignedUsers: ["User 4"],
-      isActive: false,
-    },
-  ]);
+const AddTask = ({ projects, users, onCreateTask }) => {
+  const { userRole, userId } = useContext(AuthContext);
+  const [tasks, setTasks] = useState([]);
 
   const [newTask, setNewTask] = useState({
     project: "",
@@ -75,6 +46,27 @@ const AddTask = ({ projects, users }) => {
   const [editingTask, setEditingTask] = useState(null);
   const [showActiveTasks, setShowActiveTasks] = useState(true);
 
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        let taskList;
+        
+        if (userRole === "ADMIN") {
+          taskList = await getAllTasks();
+        } 
+        else {
+          taskList = await getTasksByUserId(userId);
+        }
+
+        setTasks(taskList);
+      } catch (error) {
+        console.error("API error:", error);
+      }
+    };
+
+    fetchTasks();
+  }, [userRole, userId]);
+
   const handleTaskChange = (e) => {
     setNewTask({
       ...newTask,
@@ -82,27 +74,43 @@ const AddTask = ({ projects, users }) => {
     });
   };
 
-  const handleCreateTask = () => {
-    setTasks([...tasks, { ...newTask, id: tasks.length + 1 }]);
-    setNewTask({
-      project: "",
-      type: "",
-      subject: "",
-      description: "",
-      startDate: "",
-      endDate: "",
-      assignedUsers: [],
-      isActive: true,
-    });
+  const handleCreateTask = async () => {
+    try {
+      const taskData = {
+        projectId: newTask.project, // Proje ID'si
+        title: newTask.subject, // Task başlığı
+        description: newTask.description, // Task açıklaması
+        type: newTask.type, // Task tipi
+        startDate: newTask.startDate, // Başlangıç tarihi
+        endDate: newTask.endDate, // Bitiş tarihi
+        assignedUserIds: newTask.assignedUsers.map(Number), // Kullanıcı ID'leri
+      };
+  
+      console.log("Gönderilen task verisi:", taskData);
+      const createdTask = await onCreateTask(taskData);
+      console.log("Task başarıyla oluşturuldu:", createdTask);
+    } catch (error) {
+      if (error.response) {
+        console.error("API Hatası:", error.response.data);
+      } else {
+        console.error("Task oluşturulamadı:", error.message);
+      }
+    }
+  };
+
+  const handleUpdateTask = async () => {
+    try {
+      await updateTask(editingTask.id, editingTask);
+      const updatedTasks = await getAllTasks(); 
+      setTasks(updatedTasks);
+      setEditingTask(null);
+    } catch (error) {
+      console.error("Task güncelleme hatası:", error);
+    }
   };
 
   const handleEditTask = (task) => {
     setEditingTask(task);
-  };
-
-  const handleUpdateTask = () => {
-    setTasks(tasks.map((task) => (task.id === editingTask.id ? editingTask : task)));
-    setEditingTask(null);
   };
 
   const handleTaskFieldChange = (e) => {
@@ -137,14 +145,14 @@ const AddTask = ({ projects, users }) => {
 
   const handleOpenDialog = (task) => {
     setSelectedTask(task);
-    setLogData({ ...logData, taskId: task.id }); 
+    setLogData({ ...logData, taskId: task.id });
     setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setSelectedTask(null);
-    setLogData({ taskId: "", date: "", hours: "", comments: "", activity: "" }); 
+    setLogData({ taskId: "", date: "", hours: "", comments: "", activity: "" });
   };
 
   const handleFormChange = (e) => {
@@ -169,7 +177,7 @@ const AddTask = ({ projects, users }) => {
             name="project"
           >
             {projects.map((project) => (
-              <MenuItem key={project.name} value={project.name}>
+              <MenuItem key={project.id} value={project.id}>
                 {project.name}
               </MenuItem>
             ))}
@@ -309,7 +317,7 @@ const AddTask = ({ projects, users }) => {
                       <ArchiveIcon />
                     </IconButton>
                     <IconButton onClick={() => handleOpenDialog(task)}>
-                      <AddIcon /> 
+                      <AddIcon />
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -445,7 +453,11 @@ const AddTask = ({ projects, users }) => {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleCloseDialog}>İptal</Button>
-              <Button onClick={handleFormSubmit} variant="contained" color="primary">
+              <Button
+                onClick={handleFormSubmit}
+                variant="contained"
+                color="primary"
+              >
                 Tamam
               </Button>
             </DialogActions>

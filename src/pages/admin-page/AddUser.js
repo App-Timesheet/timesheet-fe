@@ -20,7 +20,6 @@ import {
 import Layout from "../../Layout";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ButtonGroup from "../../Components/button/ButtonGroup";
 import { registerUser, getAllUsers } from "../../service/userService";
 
 const AdminPage = () => {
@@ -110,7 +109,6 @@ const AdminPage = () => {
             Admin Panel
           </Typography>
 
-          <ButtonGroup />
 
           <Box
             sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}

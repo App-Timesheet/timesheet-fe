@@ -9,7 +9,7 @@ import {
   createProject,
 } from "../../service/projectService";
 import { getAllUsers } from "../../service/userService";
-import { AuthContext } from "../../AuthContext"; 
+import { AuthContext } from "../../AuthContext";
 
 const CreateProjectPage = () => {
   const { userRole, userId } = useContext(AuthContext);
@@ -29,11 +29,9 @@ const CreateProjectPage = () => {
           setProjects(projectList || []);
         }
 
-        const userList = await getAllUsers(); 
+        const userList = await getAllUsers();
         setUsers(userList || []);
-      } catch (error) {
-      }
-      
+      } catch (error) {}
     };
 
     fetchProjectsAndUsers();
@@ -46,7 +44,6 @@ const CreateProjectPage = () => {
     } catch (error) {
       console.error("API Error:", error.response?.data || error.message);
     }
-    
   };
 
   return (
@@ -56,7 +53,6 @@ const CreateProjectPage = () => {
           <Typography variant="h4" gutterBottom align="center">
             Proje Oluşturma ve Listeleme
           </Typography>
-          <ButtonGroup />
           <CreateProject
             users={users}
             projects={projects}

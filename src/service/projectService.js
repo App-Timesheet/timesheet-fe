@@ -1,19 +1,19 @@
 import apiClient from "../interceptor";
 
-
 export const createProject = async (projectData) => {
   try {
-    const response = await apiClient.post("/api/projects/newProject", projectData, {
-      headers: {
-      },
-    });
+    const response = await apiClient.post(
+      "/api/projects/newProject",
+      projectData,
+      {
+        headers: {},
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;
   }
 };
-
-
 
 export const getAllProjects = async () => {
   try {
@@ -24,21 +24,13 @@ export const getAllProjects = async () => {
   }
 };
 
-
-
-
-
-
-
-
-
 export const getProjectsByUserId = async (userId) => {
   try {
-    const response = await apiClient.get(`/api/projects/getProjectsByUserId/${userId}`);
+    const response = await apiClient.get(
+      `/api/projects/getProjectsByUserId/${userId}`
+    );
     return response.data;
   } catch (error) {
     throw error;
   }
 };
-
-

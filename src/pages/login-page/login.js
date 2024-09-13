@@ -24,9 +24,8 @@ import netflix from "../../assets/images/netflix.png";
 import mercedes from "../../assets/images/mercedes.png";
 import Layout from "../../Layout";
 import { loginContent } from "../../constants/content";
-import { login } from "../../service/authService"; // API fonksiyonunu içeri aktar
-import { useNavigate } from "react-router-dom"; // useNavigate React Router'dan geliyor
-
+import { login } from "../../service/authService"; 
+import { useNavigate } from "react-router-dom"; 
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -37,20 +36,18 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const result = await login(username, password); // API'den sonucu al
-      localStorage.setItem("token", result.token); // Token'ı sakla
-      localStorage.setItem("role", result.role); // Rolü sakla
-      localStorage.setItem("userId", result.id); // UserId'yi sakla
-      localStorage.setItem("isLoggedIn", "true"); // Oturum açma bilgisini sakla
-      setUserRole(result.role); // Rolü güncelle
+      const result = await login(username, password); 
+      localStorage.setItem("token", result.token); 
+      localStorage.setItem("role", result.role); 
+      localStorage.setItem("userId", result.id); 
+      localStorage.setItem("isLoggedIn", "true"); 
+      setUserRole(result.role); 
 
-      // Rol bazlı yönlendirme
       if (result.role === "ADMIN") {
-        navigate("/admin"); // useNavigate ile ADMIN rolüne sahip kullanıcı admin sayfasına yönlendirilir
+        navigate("/admin"); 
       } else if (result.role === "PROJECT_MANAGER") {
-        navigate("/create-project"); // Project Manager sayfasına yönlendirilir
-      } else {
-        navigate("/add-task"); // Standart kullanıcı task sayfasına yönlendirilir
+        navigate("/create-project"); 
+        navigate("/add-task"); 
       }
     } catch (error) {
       setError("Login failed. Please check your credentials.");

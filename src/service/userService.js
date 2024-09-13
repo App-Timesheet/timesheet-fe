@@ -17,3 +17,13 @@ export const getAllUsers = async () => {
     throw error;
   }
 };
+
+
+export const updateUserDetails = async (userId, userDetails) => {
+  try {
+    const response = await apiClient.put(`/api/users/updateUser/${userId}`, userDetails);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -1,8 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Typography, Box, TextField, Button, Paper } from '@mui/material';
 import Layout from '../../Layout';
+import apiClient from '../../interceptor'; 
 
 const ContactPage = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSuccessMessage('');
+    setErrorMessage('');
+
+    try {
+      const response = await apiClient.put('/api/messages/newMessage', {
+        content: formData.message,
+        email: formData.email,
+        userId: 0, 
+      });
+
+      if (response.status === 200) {
+        setSuccessMessage('Message sent successfully!');
+      }
+    } catch (error) {
+      setErrorMessage('Failed to send message. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <Layout>
       <Container>
@@ -34,21 +75,30 @@ const ContactPage = () => {
               Or send us a message directly:
             </Typography>
             <Paper elevation={3} sx={{ p: 3, backgroundColor: '#e3f2fd', borderRadius: 2 }}>
-              <Box component="form" sx={{ mt: 2 }}>
+              <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
                 <TextField 
                   label="Your Name" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   fullWidth 
                   margin="normal" 
                   sx={{ backgroundColor: 'white', borderRadius: 1 }}
                 />
                 <TextField 
                   label="Your Email Address" 
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   fullWidth 
                   margin="normal" 
                   sx={{ backgroundColor: 'white', borderRadius: 1 }}
                 />
                 <TextField
                   label="Message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   fullWidth
                   margin="normal"
                   multiline
@@ -59,9 +109,21 @@ const ContactPage = () => {
                   variant="contained" 
                   color="primary" 
                   fullWidth 
+                  type="submit"
+                  disabled={isSubmitting}
                   sx={{ mt: 2, backgroundColor: '#1976d2' }}>
-                  Send Message
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </Button>
+                {successMessage && (
+                  <Typography variant="body2" color="success.main" sx={{ mt: 2 }}>
+                    {successMessage}
+                  </Typography>
+                )}
+                {errorMessage && (
+                  <Typography variant="body2" color="error.main" sx={{ mt: 2 }}>
+                    {errorMessage}
+                  </Typography>
+                )}
               </Box>
             </Paper>
           </Box>
