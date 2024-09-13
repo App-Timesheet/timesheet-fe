@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "https://timesheet-be-latest.onrender.com/",
+  baseURL: "https://timesheet-be-latest.onrender.com",
   timeout: 60000,
 });
 
