@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 import Layout from "../../Layout";
-import { supportContent } from "../../Constants/content.js";
+import { supportContent } from "../../constants/content";
 
 const SupportPage = () => {
   return (

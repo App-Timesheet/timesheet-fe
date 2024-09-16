@@ -5,7 +5,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { Link } from "react-router-dom";
-import '../footer/footer.css';
+import '../Footer/footer.css';
 import { formatDate } from '../../utils/index';
 
 const Footer = () => {

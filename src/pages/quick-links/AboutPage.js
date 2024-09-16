@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Typography, Box, Card, CardContent, Stack } from "@mui/material";
 import Layout from "../../Layout";
-import { aboutContent } from "../../Constants/content";
+import { aboutContent } from "../../constants/content";
 
 const AboutPage = () => {
   return (

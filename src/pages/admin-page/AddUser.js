@@ -10,8 +10,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Checkbox,
-  FormControlLabel,
   Table,
   TableBody,
   TableCell,
@@ -22,41 +20,37 @@ import {
 import Layout from "../../Layout";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { registerUser, getAllUsers } from "../../service/userService";
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [roles, setRoles] = useState([
-    "Admin",
-    "Project Manager",
-    "Standard User",
-  ]);
+  const [roles] = useState(["PROJECT_MANAGER", "STANDARD_USER", "ADMIN"]);
   const [newUser, setNewUser] = useState({
     username: "",
     password: "",
+    email: "",
+    nameSurname: "",
     role: "",
-    isActive: true,
-    projects: [],
   });
   const [filter, setFilter] = useState("");
 
-  // useEffect(() => {
-   
-  // }, []);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const userList = await getAllUsers();
+        setUsers(userList || []);
+      } catch (error) {
+        toast.error("Kullanıcılar getirilemedi.");
+      }
+    };
+    fetchUsers();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewUser({
       ...newUser,
       [name]: value,
-    });
-  };
-
-  const handleCheckboxChange = (e) => {
-    setNewUser({
-      ...newUser,
-      isActive: e.target.checked,
     });
   };
 
@@ -67,61 +61,55 @@ const AdminPage = () => {
     });
   };
 
-  const handleProjectSelection = (e) => {
-    const selectedProjects = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
-    setNewUser({
-      ...newUser,
-      projects: selectedProjects,
-    });
-  };
-
-  const handleCreateUser = () => {
+  const handleCreateUser = async () => {
     if (newUser.username && newUser.password) {
-      setUsers([...users, newUser]);
-      toast.success("User created successfully");
-      setNewUser({
-        username: "",
-        password: "",
-        role: "",
-        isActive: true,
-        projects: [],
-      });
+      try {
+        const response = await registerUser({
+          username: newUser.username,
+          password: newUser.password,
+          email: newUser.email,
+          nameSurname: newUser.nameSurname,
+          role: newUser.role,
+        });
+        setUsers([...users, response]);
+        toast.success("Kullanıcı başarıyla oluşturuldu.");
+        setNewUser({
+          username: "",
+          password: "",
+          email: "",
+          nameSurname: "",
+          role: "",
+        });
+      } catch (error) {
+        toast.error("Kullanıcı oluşturulurken bir hata oluştu.");
+      }
     } else {
-      toast.error("Please fill in the username and password.");
+      toast.error("Lütfen kullanıcı adı ve şifre alanlarını doldurunuz.");
     }
   };
-  
+
   const handleDeleteUser = (username) => {
     setUsers(users.filter((user) => user.username !== username));
-    toast.success("User deleted successfully");
+    toast.success("Kullanıcı başarıyla silindi.");
   };
-  
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value.toLowerCase());
   };
 
-  const filteredUsers = users.filter((user) =>
-    user.username.toLowerCase().includes(filter)
-  );
+  const filteredUsers = users.filter((user) => {
+    return user.username && user.username.toLowerCase().includes(filter);
+  });
 
   return (
     <Layout>
-      <Container
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh",
-        }}
-      >
+      <Container>
         <Paper elevation={5} sx={{ p: 4, width: "100%", maxWidth: "1200px" }}>
           <Typography variant="h4" gutterBottom align="center">
             Admin Panel
           </Typography>
+
+
           <Box
             sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
           >
@@ -133,10 +121,10 @@ const AdminPage = () => {
               }}
             >
               <Paper elevation={3} sx={{ p: 3 }}>
-                <Typography variant="h6">New User</Typography>
+                <Typography variant="h6">Yeni Kullanıcı</Typography>
                 <Box component="form" sx={{ mt: 2 }}>
                   <TextField
-                    label="Username"
+                    label="Kullanıcı Adı"
                     variant="outlined"
                     fullWidth
                     margin="normal"
@@ -145,7 +133,7 @@ const AdminPage = () => {
                     onChange={handleInputChange}
                   />
                   <TextField
-                    label="Password"
+                    label="Şifre"
                     type="password"
                     variant="outlined"
                     fullWidth
@@ -154,40 +142,33 @@ const AdminPage = () => {
                     value={newUser.password}
                     onChange={handleInputChange}
                   />
+                  <TextField
+                    label="Email"
+                    type="email"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    name="email"
+                    value={newUser.email}
+                    onChange={handleInputChange}
+                  />
+                  <TextField
+                    label="İsim Soyisim"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    name="nameSurname"
+                    value={newUser.nameSurname}
+                    onChange={handleInputChange}
+                  />
+
                   <FormControl fullWidth margin="normal">
-                    <InputLabel>Role</InputLabel>
+                    <InputLabel>Rol</InputLabel>
                     <Select value={newUser.role} onChange={handleRoleChange}>
                       {roles.map((role) => (
                         <MenuItem key={role} value={role}>
                           {role}
                         </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={newUser.isActive}
-                        onChange={handleCheckboxChange}
-                      />
-                    }
-                    label="Active"
-                  />
-                  <FormControl fullWidth margin="normal">
-                    <InputLabel>Projects</InputLabel>
-                    <Select
-                      multiple
-                      native
-                      value={newUser.projects}
-                      onChange={handleProjectSelection}
-                      inputProps={{
-                        id: "select-multiple-native",
-                      }}
-                    >
-                      {projects.map((project) => (
-                        <option key={project.id} value={project.id}>
-                          {project.name}
-                        </option>
                       ))}
                     </Select>
                   </FormControl>
@@ -197,7 +178,7 @@ const AdminPage = () => {
                       color="primary"
                       onClick={handleCreateUser}
                     >
-                      Create
+                      Oluştur
                     </Button>
                   </Box>
                 </Box>
@@ -210,48 +191,45 @@ const AdminPage = () => {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    mb: 2,
                   }}
                 >
-                  <Typography variant="h6">Users</Typography>
+                  <Typography variant="h6">Kullanıcılar</Typography>
                   <TextField
-                    label="Filter"
+                    label="Filtrele"
                     variant="outlined"
                     size="small"
                     onChange={handleFilterChange}
                     sx={{ width: "200px" }}
                   />
                 </Box>
-                <TableContainer sx={{ mt: 2 }}>
+                <TableContainer>
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Username</TableCell>
-                        <TableCell>Role</TableCell>
-                        <TableCell>Active</TableCell>
-                        <TableCell>Projects</TableCell>
-                        <TableCell>Actions</TableCell>
+                        <TableCell>Kullanıcı Adı</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>İsim Soyisim</TableCell>
+                        <TableCell>Rol</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {filteredUsers.map((user) => (
-                        <TableRow key={user.username}>
-                          <TableCell>{user.username}</TableCell>
-                          <TableCell>{user.role}</TableCell>
-                          <TableCell>
-                            {user.isActive ? "Yes" : "No"}
-                          </TableCell>
-                          <TableCell>{user.projects.join(", ")}</TableCell>
-                          <TableCell>
-                            <Button
-                              variant="outlined"
-                              color="error"
-                              onClick={() => handleDeleteUser(user.username)}
-                            >
-                              Delete
-                            </Button>
+                      {filteredUsers.length > 0 ? (
+                        filteredUsers.map((user) => (
+                          <TableRow key={user.username}>
+                            <TableCell>{user.username}</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                            <TableCell>{user.nameSurname}</TableCell>
+                            <TableCell>{user.role}</TableCell>
+                          </TableRow>
+                        ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={5} align="center">
+                            Kullanıcı bulunamadı.
                           </TableCell>
                         </TableRow>
-                      ))}
+                      )}
                     </TableBody>
                   </Table>
                 </TableContainer>
@@ -261,7 +239,6 @@ const AdminPage = () => {
         </Paper>
       </Container>
       <ToastContainer />
-
     </Layout>
   );
 };

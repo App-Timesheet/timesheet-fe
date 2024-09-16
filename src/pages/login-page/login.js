@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../AuthContext";
 import {
   Container,
   Typography,
@@ -9,27 +11,50 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import logo from "../../../assets/images/logo.png";
-import login_left from "../../../assets/images/login_left.png";
-import login_photo1 from "../../../assets/images/login_photo1.png";
-import login_photo2 from "../../../assets/images/login_photo2.png";
-import lg from "../../../assets/images/lg.png";
-import hp from "../../../assets/images/hp.png";
-import amazon from "../../../assets/images/amazon.jpg";
-import hepsi from "../../../assets/images/hepsi.png";
-import netlifx from "../../../assets/images/netflix.png";
-import mercedes from "../../../assets/images/mercedes.png";
-import Layout from "../../../Layout";
-import { loginContent } from "../../../Constants/content";
 
+import logo from "../../assets/images/logo.png";
+import login_left from "../../assets/images/login_left.png";
+import login_photo1 from "../../assets/images/login_photo1.png";
+import login_photo2 from "../../assets/images/login_photo2.png";
+import lg from "../../assets/images/lg.png";
+import hp from "../../assets/images/hp.png";
+import amazon from "../../assets/images/amazon.jpg";
+import hepsi from "../../assets/images/hepsi.png";
+import netflix from "../../assets/images/netflix.png";
+import mercedes from "../../assets/images/mercedes.png";
+import Layout from "../../Layout";
+import { loginContent } from "../../constants/content";
+import { login } from "../../service/authService"; 
+import { useNavigate } from "react-router-dom"; 
 
-function Login() {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { setUserRole } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    alert("Login clicked!");
+  const handleLogin = async () => {
+    try {
+      const result = await login(username, password); 
+      localStorage.setItem("token", result.token); 
+      localStorage.setItem("role", result.role); 
+      localStorage.setItem("userId", result.id); 
+      localStorage.setItem("isLoggedIn", "true"); 
+      setUserRole(result.role); 
+
+      if (result.role === "ADMIN") {
+        navigate("/admin"); 
+      } else if (result.role === "PROJECT_MANAGER") {
+        navigate("/create-project"); 
+        navigate("/add-task"); 
+      }
+    } catch (error) {
+      setError("Login failed. Please check your credentials.");
+    }
   };
+  
+  
 
   return (
     <Layout>
@@ -270,7 +295,7 @@ function Login() {
                 style={{ width: "auto", height: "50px", margin: "10px" }}
               />
               <img
-                src={netlifx}
+                src={netflix}
                 alt="netlifx"
                 style={{ width: "auto", height: "50px", margin: "10px" }}
               />
